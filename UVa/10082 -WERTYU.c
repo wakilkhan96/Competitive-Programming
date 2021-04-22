@@ -1,0 +1,103 @@
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int x;
+    char line[1000];
+    while(gets(line))
+    {
+        for(x=0;x<strlen(line);x++)
+        {
+            if(line[x]=='1')
+                printf("`");
+            if(line[x]=='2')
+                printf("1");
+            if(line[x]=='3')
+                printf("2");
+            if(line[x]=='4')
+                printf("3");
+            if(line[x]=='5')
+                printf("4");
+            if(line[x]=='6')
+                printf("5");
+            if(line[x]=='7')
+                printf("6");
+            if(line[x]=='8')
+                printf("7");
+            if(line[x]=='9')
+                printf("8");
+            if(line[x]=='0')
+                printf("9");
+            if(line[x]=='-')
+                printf("0");
+            if(line[x]=='=')
+                printf("-");
+            if(line[x]=='W')
+                printf("Q");
+            if(line[x]=='E')
+                printf("W");
+            if(line[x]=='R')
+                printf("E");
+            if(line[x]=='T')
+                printf("R");
+            if(line[x]=='Y')
+                printf("T");
+            if(line[x]=='U')
+                printf("Y");
+            if(line[x]=='I')
+                printf("U");
+            if(line[x]=='O')
+                printf("I");
+            if(line[x]=='P')
+                printf("O");
+            if(line[x]=='[')
+                printf("P");
+            if(line[x]==']')
+                printf("[");
+            if(line[x]=='\\')///exceptions for backslash character
+                printf("]");
+            if(line[x]=='S')
+                printf("A");
+            if(line[x]=='D')
+                printf("S");
+            if(line[x]=='F')
+                printf("D");
+            if(line[x]=='G')
+                printf("F");
+            if(line[x]=='H')
+                printf("G");
+            if(line[x]=='J')
+                printf("H");
+            if(line[x]=='K')
+                printf("J");
+            if(line[x]=='L')
+                printf("K");
+            if(line[x]==';')
+                printf("L");
+            if(line[x]=='\'')///exceptions for quotation character
+                printf(";");
+            if(line[x]=='X')
+                printf("Z");
+            if(line[x]=='C')
+                printf("X");
+            if(line[x]=='V')
+                printf("C");
+            if(line[x]=='B')
+                printf("V");
+            if(line[x]=='N')
+                printf("B");
+            if(line[x]=='M')
+                printf("N");
+            if(line[x]==',')
+                printf("M");
+            if(line[x]=='.')
+                printf(",");
+            if(line[x]=='/')
+                printf(".");
+            if(line[x]==' ')///exceptions
+                printf(" ");
+        }
+        printf("\n");
+    }
+    return 0;
+}
