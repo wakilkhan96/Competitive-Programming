@@ -1,0 +1,49 @@
+typedef long long ll;
+#define MAX 1000000
+#define MIN -1000000
+#define SET(x) memset(x,0,sizeof(x))
+
+int main()
+ {
+	int a,b,x,y,z;
+    int n;
+    cin>>n;
+    while(n--)
+    {
+        string s1,s2;
+        cin>>a>>b;
+        cin>>s1>>s2;
+
+        if(a<b)
+        {
+            swap(s1,s2);
+            swap(a,b);
+        }
+        string temp="0";
+        s1=temp+s1;
+        s2=temp+s2;
+
+        int index[b+1][a+1];
+        memset(index,0,sizeof(index));
+
+        int cou=0,_max=0;
+        for(x=1;x<b+1;x++)
+        {
+            for(y=1;y<a+1;y++)
+            {
+                if(s2[x]==s1[y])index[x][y]=index[x-1][y-1]+1;
+                else index[x][y]=max(index[x-1][y],index[x][y-1]);
+
+                if(index[x][y]>_max)
+                {
+                    //cout<<s2[x];
+                    _max=index[x][y];
+                }
+            }
+        }
+        cout<<_max<<endl;
+
+    }
+	
+	return 0;
+}

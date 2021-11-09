@@ -1,0 +1,34 @@
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+class Solution
+{
+    	public:
+    	long long sum_1_to_n(long long n){
+    	    return (n*(n+1LL))/2LL;
+    	}
+		long sum_of_ap(long n,long a, long d)
+		{
+		    // Code here.
+		    return (n*a) + (d*sum_1_to_n(n-1LL));
+		}
+};
+
+// { Driver Code Starts.
+int main(){
+    int T;
+    cin >> T;
+    while(T--)
+    {
+    	long n, a, d;
+    	cin >> n >> a >> d;
+    	Solution ob;
+    	long ans = ob.sum_of_ap(n, a, d);
+    	cout << ans <<"\n";
+    }
+	return 0;
+}  // } Driver Code Ends

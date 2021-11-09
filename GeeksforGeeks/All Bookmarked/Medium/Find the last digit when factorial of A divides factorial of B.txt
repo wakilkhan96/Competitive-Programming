@@ -1,0 +1,37 @@
+using namespace std;
+typedef long long ll;
+#define MAX 1000000
+#define MIN -1000000
+#define SET(x) memset(x,0,sizeof(x))
+
+int main()
+{
+	ll n,a,b,c,x,y,z;
+    cin>>n;
+    while(n--)
+    {
+        cin>>a>>b;
+        ll num=1;
+    
+        if(a==b)cout<<"1"<<endl;
+        else
+        {
+            ll cou=0;
+            for(x=a+1,cou=0;x<=b;x++,cou++)
+            {
+                num = (num * (x%10))%10;
+    
+                if(cou>=5)
+                {
+                    num=0;break;
+                }
+            }
+    
+            cout<<num<<endl;
+        }
+    }
+
+
+	
+	return 0;
+}

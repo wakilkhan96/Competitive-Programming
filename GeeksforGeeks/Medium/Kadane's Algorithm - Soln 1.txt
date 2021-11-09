@@ -1,0 +1,81 @@
+using namespace std;
+
+struct items
+{
+    int max_sum, lx, rx;
+};
+
+struct KADANE_Algorithm
+{
+    int current_max, global_max, lx, rx;
+    void segment_with_maximal_sum(vector<int> &arr, int l, int r)
+    {
+        if(!arr.size()) return;
+        current_max = global_max = arr[0];
+        lx = rx = 0;
+
+        for(int x=l+1; x<=r; x++)
+        {
+            
+            if( current_max < arr[x]  && current_max + arr[x] < arr[x])
+            {
+                current_max = arr[x];
+                if(current_max > global_max)
+                {
+                    global_max = max( current_max, global_max );
+                    lx = x;
+                    rx = x;
+                }
+            }
+            else
+            {
+                current_max = current_max + arr[x];
+                if(current_max > global_max)
+                {
+                    global_max = max( current_max, global_max );
+                    rx = x;
+                }
+            }
+
+            //printf("x=%d   curr=%d    glob=%d\n", x, current_max, global_max );
+
+        }
+
+
+    }
+    items find_segment_with_maximal_sum(vector<int> arr, int l, int r)
+    {
+        segment_with_maximal_sum(arr, l, r);
+        return {global_max, lx, rx};
+    }
+};
+
+
+int main()
+{
+    int t, n, x;
+    cin>>t;
+    while(t--)
+    {
+        cin>>n;
+        vector<int> arr(n);
+        for(auto i=0; i<n; i++) cin>>arr[i];
+        KADANE_Algorithm ob;
+        items it = ob.find_segment_with_maximal_sum(arr, 0, n-1);
+        //cout<<it.lx<<" "<<it.rx<<" "<<it.max_sum<<endl;
+        cout<<it.max_sum<<endl;
+
+    }
+}
+
+/*
+
+3
+4
+-2 3 2 -1
+9
+-2 1 -3 4 -1 2 1 -5 4
+6
+-8 -3 -6 -2 -5 -4
+
+*/

@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+using namespace std;
+class Solution{
+
+ // } Driver Code Ends
+	
+	public:
+	bool isPrime(int n)
+	{
+	    if(n<=1) return false;
+	    if(n==2) return true;
+	    for(int i=2; i<=sqrt(n); i++) {
+	        if(n%i==0) return false;
+	    }
+	    return true;
+	}
+	int isCircularPrime(int n) {
+	    // Code here
+	    vector<int> rotations;
+	    string digit = to_string(n);
+	    //cout<<digit<<endl;
+	    int len = digit.size();
+	    for(int i=0; i<len; i++) {
+	        int num = 0;
+	        for(int j=i; j<len; j++) num = (num*10) + (digit[j]-'0');
+	        for(int j=0; j<i; j++) num = (num*10) + (digit[j]-'0');
+	        //cout<<num<<endl;
+	        //rotations.push_back(num);
+	        if(!isPrime(num)) return false;
+	    }
+	    
+	    return true;
+	}
+};
+
+// { Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		int n;
+		cin >> n;
+		Solution ob;
+		int ans = ob.isCircularPrime(n);
+		cout << ans <<"\n";
+	}  
+	return 0;
+}  // } Driver Code Ends

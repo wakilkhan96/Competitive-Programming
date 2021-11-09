@@ -1,0 +1,16 @@
+{
+    int test;
+    long long m,n,x,y,cou;
+    cin>>test;
+    while(test--)
+    {
+        cin>>m>>n;
+        cou=0;
+        for(x=0;x<m && x<n;x++)
+        {
+            cou+=(m-x)*(n-x);
+        }
+        cout<<cou<<endl;
+    }
+    return 0;
+}

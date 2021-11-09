@@ -1,0 +1,35 @@
+using namespace std;
+
+ // } Driver Code Ends
+class Solution
+{
+	public:
+	    long long sum_of_squares(long long int n){
+	        return (n*(n+1)*(2*n+1))/6LL;
+	    }
+		long long int sum_of_square_evenNumbers(long long int n)
+		{
+		    // suppose n = 4
+		    // 2^2 + 4^2 + 6^2 + 8^2
+		    // (1^2*2^2) + (2^2*2^2) + (3^2*2^2) + (4^2*2^2)
+		    // (2^2) * (1^2 + 2^2 + 3^2 + 4^2)
+		    // (2^2) * (n*(n+1)*(2*n+1))/6
+		    // 4 * (n*(n+1)*(2*n+1))/6
+		    return 4LL * sum_of_squares(n);
+		}
+};
+
+// { Driver Code Starts.
+int main(){
+    int T;
+    cin >> T;
+    while(T--)
+    {
+    	long long int n;
+    	cin >> n;
+    	Solution ob;
+    	long long int  ans = ob.sum_of_square_evenNumbers(n);
+    	cout << ans <<"\n";
+    }
+	return 0;
+}  // } Driver Code Ends

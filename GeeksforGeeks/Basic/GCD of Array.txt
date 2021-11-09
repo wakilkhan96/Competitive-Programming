@@ -1,0 +1,30 @@
+typedef long long ll;
+#define MAX 1000000
+#define MIN -1000000
+#define SET(x) memset(x,0,sizeof(x))
+
+int gcd(int x,int y)
+{
+    if(x==0)return y;
+    gcd(y%x,x);
+}
+
+int main()
+{
+    int t,x,y,z,ara[1000];;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        for(x=0;x<n;x++)cin>>ara[x];
+        z=ara[0];
+        for(x=0;x<n;x++)
+        {
+            z=gcd(z,ara[x]);
+        }
+        cout<<z<<endl;
+    }
+
+    return 0;
+}

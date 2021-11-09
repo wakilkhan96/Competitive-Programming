@@ -1,0 +1,85 @@
+/*
+The main idea is to calculate the sum for each array until we come across common element.
+
+sum1 → sum for 1st array
+
+sum2 → sum for 2nd array
+
+maxsum → max sum path
+
+Now when we come across a common element,
+
+add max(sum1,sum2) to maxsum. At this point we have a choice to shift the array. Shifting will be only beneficial if it gives max sum.
+
+Consider the rest of the elements of both array as new problem statement.
+
+Again calculate sum1 and sum2 for both arrays until a common element is found or we reach the end of one of these array.
+
+After calculating sum1 and sum2 check the max of them and we will know weather shifting to next array was benificial or not.
+
+Do the same until we traverse both the array.
+*/
+
+
+ // } Driver Code Ends
+
+class Solution{
+    public:
+    /*You are required to complete this method*/
+     int max_path_sum(int A[], int B[], int l1, int l2)
+    {
+        //Your code here
+        int sum_of_A(0), sum_of_B(0), max_sum(0);
+        int i=0, j=0;
+        while( i<l1 && j<l2 ) 
+        {
+            if(A[i]<B[j]) {
+                sum_of_A += A[i];
+                i++;
+            }
+            else if(A[i]>B[j]) {
+                sum_of_B += B[j];
+                j++;
+            }
+            else { // when A[i]==B[j]
+                sum_of_A += A[i];
+                sum_of_B += B[j];
+                max_sum = max(max_sum+sum_of_A, max_sum+sum_of_B);
+                sum_of_A = 0, sum_of_B = 0;
+                i++;
+                j++;
+            }
+        }
+        //cout<<max_sum<<endl;
+        //cout<<sum_of_A<<" "<<sum_of_B<<endl;
+        for( ; i<l1; i++) sum_of_A += A[i];
+        for( ; j<l2; j++) sum_of_B += B[j];
+        max_sum = max(max_sum+sum_of_A, max_sum+sum_of_B);
+        return max_sum;
+    }
+};
+
+// { Driver Code Starts.
+
+int main()
+{
+    int T;
+    cin>>T;
+
+    while(T--)
+    {
+        int N,M;
+        cin>>N>>M;
+        fflush(stdin);
+        int a[N],b[M];
+        for(int i=0;i<N;i++)
+            cin>>a[i];
+        for(int i=0;i<M;i++)
+            cin>>b[i];
+        Solution obj;
+        int result = obj.max_path_sum(a,b,N,M);
+        cout<<result<<endl;
+    }
+}
+
+  // } Driver Code Ends

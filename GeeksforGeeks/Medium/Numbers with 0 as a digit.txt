@@ -1,0 +1,31 @@
+typedef long long ll;
+#define MAX 1000000
+#define MIN -1000000
+#define SET(x) memset(x,0,sizeof(x))
+
+int main()
+ {
+	int  x,y,z,n,t;
+    cin>>t;
+
+    while(t--)
+    {
+        cin>>n;
+        int cou=0;
+        for(x=1;x<=n;x++)
+        {
+            y=x;
+            while(y)
+            {
+                if(y%10==0)
+                {
+                    cou++;break;
+                }
+                y/=10;
+            }
+        }
+        printf("%d\n",cou);
+    }
+	
+	return 0;
+}

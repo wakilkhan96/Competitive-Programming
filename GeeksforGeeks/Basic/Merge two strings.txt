@@ -1,0 +1,22 @@
+
+int main()
+{
+	int x,y,z,n;
+	string s1,s2;
+	scanf("%d ",&n);
+	while(n--)
+	{
+
+        cin>>s1>>s2;
+        int m=max(s1.size(),s2.size());
+        for(x=0;x<m;x++)
+        {
+            if(x<s1.size())cout<<s1[x];
+            if(x<s2.size())cout<<s2[x];
+        }
+       cout<<endl;
+
+	}
+
+	return 0;
+}

@@ -1,0 +1,42 @@
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+class Solution
+{
+	public:
+	    bool isAtomorphic(int n){
+	        int nn = n*n, atom=0;
+	        int digits = log10(n)+1;
+	        for(int d=0; d<digits; d++){
+	            atom = (nn%10)*pow(10, d) + atom;
+	            nn /= 10;
+	        }
+	        //cout<<atom<<" "<<n<<endl;
+	        return atom==n;
+	    }
+		string is_AutomorphicNumber(int n)
+		{
+		    // Code here
+		    if(isAtomorphic(n)) return "Automorphic";
+		    return "Not Automorphic";
+		}
+};
+
+// { Driver Code Starts.
+int main(){
+    int T;
+    cin >> T;
+    while(T--)
+    {
+    	int n;
+    	cin >> n;
+    	Solution ob;
+    	string ans = ob.is_AutomorphicNumber(n);
+    	cout << ans <<"\n";
+    }
+	return 0;
+}  // } Driver Code Ends

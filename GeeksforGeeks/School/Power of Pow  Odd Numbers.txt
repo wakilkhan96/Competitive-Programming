@@ -1,0 +1,33 @@
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+
+class Solution
+{
+	public:
+		long long int sum_of_square_oddNumbers(long long int n)
+		{
+		    // sum of first n odd squares n*(2n+1)*(2n−1)/3
+		    return (n*(2LL*n+1LL)*(2LL*n-1LL))/3LL;
+		}
+};
+
+// { Driver Code Starts.
+int main(){
+    int T;
+    cin >> T;
+    while(T--)
+    {
+    	long long int n;
+    	cin >> n;
+    	Solution ob;
+    	long long int  ans = ob.sum_of_square_oddNumbers(n);
+    	cout << ans <<"\n";
+    }
+	return 0;
+}  // } Driver Code Ends

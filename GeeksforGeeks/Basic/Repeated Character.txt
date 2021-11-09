@@ -1,0 +1,41 @@
+
+int main()
+{
+	int x,y,z,n;
+	char c;
+	string s;
+	scanf("%d ",&n);
+	while(n--)
+	{
+        stack<char>st;
+        map<char,int>mp;
+        cin>>s;
+        y=s.size();
+        for(x=y-1;x>=0;x--)
+        {
+            mp[s[x]]++;
+            st.push(s[x]);
+        }
+        bool check=false;
+        //cout<<" done"<<endl;
+        while(!st.empty())
+        {
+            c=st.top();
+            if(mp[c]>1)
+            {
+                check=true;break;
+            }
+            st.pop();
+        }
+
+        //cout<<" done"<<endl;
+        if(check)cout<<c<<endl;
+        else cout<<"-1"<<endl;
+
+        st.empty();
+        mp.clear();
+
+	}
+
+	return 0;
+}

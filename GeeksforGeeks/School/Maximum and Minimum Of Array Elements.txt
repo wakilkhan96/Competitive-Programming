@@ -1,0 +1,25 @@
+using namespace std;
+typedef long long ll;
+#define MAX 1000000
+#define MIN -1000000
+#define SET(x) memset(x,0,sizeof(x))
+
+int main()
+ {
+	//code
+	int test, n, arr[1000];
+	cin>>test;
+	while(test--)
+	{
+	    cin>>n;
+	    for(int i=0; i<n; i++) cin>> arr[i];
+	    int mini = INT_MAX, maxi = -INT_MAX;
+	    for(int i=0; i<n; i++) 
+	    {
+	        mini = min(mini, arr[i]);
+	        maxi = max(maxi, arr[i]);
+	    }
+	    cout<<maxi<<" "<<mini<<endl;
+	}
+	return 0;
+}

@@ -1,0 +1,34 @@
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+
+class Solution{
+	public:
+	int find(vector<int>a, vector<int>b){
+	    //  Code here
+	    int aXb = pow((a[1]*b[2]-a[2]*b[1]), 2)+pow((a[0]*b[2]-a[2]*b[0]), 2)+pow((a[0]*b[1]-a[1]*b[0]), 2);
+	    int ab =  (a[0]*b[0] + a[1]*b[1] + a[2]*b[2]);
+	    if(ab==0 ) return 2;
+	    if(aXb==0) return 1;
+	    return 0;
+	}
+};
+
+// { Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		vector<int>A(3), B(3);
+		for(int i = 0; i < 3; i++)cin >> A[i];
+		for(int i = 0; i < 3; i++)cin >> B[i];
+		Solution ob;
+		int ans = ob.find(A, B);
+		cout << ans <<"\n";
+	}  
+	return 0;
+}  // } Driver Code Ends

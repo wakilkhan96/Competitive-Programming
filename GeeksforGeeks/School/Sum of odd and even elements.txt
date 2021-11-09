@@ -1,0 +1,41 @@
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+class Solution
+{
+	public:
+	    long long sum_1_to_n(long long n){
+	        return (n*(n+1))/2LL;
+	    }
+		vector<int> find_sum(int n)
+		{
+		    // Code here
+            vector<int> v;
+            long long sum = sum_1_to_n(n);
+            long long even = 2LL*sum_1_to_n((long long)n/2LL), odd = sum - even;
+            v.push_back(odd);
+            v.push_back(even);
+            return v;
+		}
+};
+
+// { Driver Code Starts.
+int main(){
+    int T;
+    cin >> T;
+    while(T--)
+    {
+    	int n;
+    	cin >> n;
+    	Solution ob;
+    	vector<int> ans = ob.find_sum(n);
+    	for(auto i: ans)
+    		cout << i << " ";
+    	cout<<"\n";
+    }
+	return 0;
+}  // } Driver Code Ends

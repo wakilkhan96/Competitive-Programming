@@ -1,0 +1,25 @@
+using namespace std;
+typedef long long ll;
+#define MAX 1000000
+#define MIN -1000000
+#define SET(x) memset(x,0,sizeof(x))
+
+int main()
+ {
+	//code
+	int test, n, k, arr[100001];
+	cin>>test;
+	while(test--)
+	{
+	    cin>>n>>k;
+	    for(int i=0; i<n; i++) cin>>arr[i];
+	    reverse(arr, arr+n);
+	    reverse(arr+n-k, arr+n);
+	    reverse(arr, arr+n-k);
+	    
+	    for(int i=0; i<n; i++) cout<<arr[i]<< " ";
+	    cout<<endl;
+	}
+	
+	return 0;
+}
