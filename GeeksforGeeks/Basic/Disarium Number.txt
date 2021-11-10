@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+  public:
+    int isDisarium(int N) {
+        // code here
+        int sum = 0;
+        int pos = log10(N)+1, NN = N;
+        while(NN) {
+            sum += pow(NN%10, pos--);
+            NN /= 10;
+        }
+        return sum == N;
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N;
+        
+        cin>>N;
+
+        Solution ob;
+        cout << ob.isDisarium(N) << endl;
+    }
+    return 0;
+}  // } Driver Code Ends

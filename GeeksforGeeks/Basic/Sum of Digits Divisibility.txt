@@ -1,0 +1,32 @@
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function template for C++
+
+class Solution {
+  public:
+    int isDivisible(int N) {
+        // code here
+        int sum = 0, NN = N;
+        while(N) {
+            sum += (N%10);
+            N /= 10;
+        }
+        return !(NN % sum);
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N;
+        cin >> N;
+        Solution ob;
+        cout << ob.isDivisible(N) << "\n";
+    }
+}  // } Driver Code Ends

@@ -1,0 +1,34 @@
+#include<bits/stdc++.h> 
+using namespace std; 
+
+ // } Driver Code Ends
+class Solution{   
+public:
+    string checkFibonacci(int N){
+        // code here
+        int p1 = 0, p2 = 1;
+        int c=p1+p1;
+        while(c<N) {
+            p1 = p2, p2 = c;
+            c = p1 + p2;
+            //cout<<c<<endl;
+        }
+        if(N==c) return "Yes";
+        return "No";
+    }
+};
+
+// { Driver Code Starts.
+int main() 
+{ 
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int N;
+        cin >> N;
+        Solution ob;
+        cout << ob.checkFibonacci(N) << endl;
+    }
+    return 0; 
+}   // } Driver Code Ends

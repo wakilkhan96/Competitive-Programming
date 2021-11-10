@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+  public:
+    int factorial(int n) {
+        if(n==0) return 1;
+        return n*factorial(n-1);
+    }
+    string isKrishnamurthy(int N) {
+        // code here
+        int sum = 0, NN = N;
+        while(NN) {
+            sum += factorial(NN%10);
+            NN /= 10;
+        }
+        if(N==sum) return "YES";
+        return "NO";
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N;
+        
+        cin>>N;
+
+        Solution ob;
+        cout << ob.isKrishnamurthy(N) << endl;
+    }
+    return 0;
+}  // } Driver Code Ends

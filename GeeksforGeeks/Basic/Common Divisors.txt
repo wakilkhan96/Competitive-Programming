@@ -1,0 +1,37 @@
+// Initial Template for C++
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+class Solution {
+  public:
+    long long int commDiv(long long int a,long long int b) {
+        // code here
+        if(__gcd(a, b)==1) return 1;
+        
+        if(a>b) swap(a, b);
+        int cou = 0, div1, div2;;
+        for(int i=1; i<=sqrt(a); i++) {
+            div1 = i, div2 = a/i;
+            if(a%i) continue;
+            if(a%div1==0 && b%div1==0) cou++;
+            if(a%div2==0 && b%div2==0) cou++;
+        }
+        return cou;
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        long long int a, b;
+        cin >> a >> b;
+        Solution ob;
+        cout<<ob.commDiv(a, b)<<endl;
+    }
+    return 0;
+}
+  // } Driver Code Ends
