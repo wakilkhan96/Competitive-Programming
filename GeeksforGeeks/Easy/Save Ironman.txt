@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+bool saveIronman(string ch);
+
+
+int main()
+{
+    int t,b,c,d,e,f,g,h;
+    cin>>t;
+    char cc;
+    cc = getchar();
+    
+    while(t--)
+    {
+        string ch;
+        getline(cin,ch);
+        
+        if(saveIronman(ch)){
+            cout << "YES\n";
+        }
+        else{
+            cout << "NO\n";
+        }
+        
+    }
+}
+// } Driver Code Ends
+
+bool valid(char ch) {
+    if(ch>='a' && ch<='z') return true;
+    if(ch>='A' && ch<='Z') return true;
+    if(ch>='0' && ch<='9') return true;
+    return false;
+}
+bool areSame(char a, char b) {
+    if(a>='A' && a<='Z') a += 32;
+    if(b>='A' && b<='Z') b += 32;
+    return a==b;
+}
+bool saveIronman(string ch)
+{
+    // Complete the function
+    int len = ch.size();
+    int l = 0, r = len-1;
+    for(int i=0; l<r; i++) {
+        while(!valid(ch[l])) l++;
+        while(!valid(ch[r])) r--;
+        if(!areSame(ch[l], ch[r])) return false;
+        l++, r--;
+    }
+    return true;
+}

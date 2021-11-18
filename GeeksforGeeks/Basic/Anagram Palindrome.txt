@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int isPossible (string s);
+
+int main()
+{
+    int t; cin >> t;
+    while (t--)
+	{
+		string s; cin >> s;
+		if (isPossible (s))
+			cout << "Yes\n";
+		else
+			cout << "No\n";
+	}
+}
+
+// Contributed By: Pranay Bansal
+// } Driver Code Ends
+
+
+int isPossible (string s)
+{
+    // your code here
+    map<char, int> mp;
+    int len = s.size();
+    for(int i=0; i<len; i++) mp[s[i]]++;
+    int cou = 0;
+    for(auto it=mp.begin(); it!=mp.end(); it++) {
+        if(it->second%2==1) cou++;
+        if(cou>1) return 0;
+    }
+    return 1;
+}
