@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution{
+    public:
+    int search(int A[], int l, int h, int key){
+    //complete the function here
+        int ll=-1, rr=h+1, mm;
+        while(rr>ll+1) {
+            mm = (ll+rr)/2;
+            if(A[mm]>=A[0]) ll = mm;
+            else rr = mm;
+        }
+        
+        //cout<<ll<<endl;
+        if(key>=A[0]) rr = ll+1, ll = -1;
+        else ll = ll+1, rr = h+1;
+        //cout<<ll<< " - "<< rr<<endl;
+        while(rr>=ll) {
+            mm = (ll+rr)/2;
+            if(A[mm]==key) return mm;
+            else if(key<A[mm]) rr = mm-1;
+            else ll = mm+1;
+        }
+        return -1;
+    }
+};
+
+// { Driver Code Starts. 
+int main() {
+    int t;
+    cin >> t;
+    while(t--){
+        int n;
+        cin >> n;
+        int A[n];
+        for(int i = 0; i < n; i++)
+            cin >> A[i];
+        int key;
+        cin >> key;
+        Solution ob;
+        cout << ob.search(A, 0, n - 1, key) << endl;
+    }
+return 0;
+}  // } Driver Code Ends
