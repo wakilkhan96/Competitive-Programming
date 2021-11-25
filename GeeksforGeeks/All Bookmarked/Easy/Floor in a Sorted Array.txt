@@ -14,10 +14,12 @@ class Solution{
         long long l = -1, r = n, m, target = x;
         while(r>l+1) {
             m = (l+r)/2LL;
-            if(v[m]>target) r = m;
-            else l = m;
+            if(v[m]<target) l = m;
+            else r = m;
         }
-        return l;
+        if(r>=n) r--;
+        if(v[r]>target) return -1;
+        return r;
     }
 };
 
