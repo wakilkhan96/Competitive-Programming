@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+class Solution{
+    public:
+    int kthElement(int arr1[], int arr2[], int n, int m, int k)
+    {
+        int cou = 0, it1=0, it2=0, last_value = -1;
+        
+        while(it1<n && it2<m) {
+            if(arr1[it1]<arr2[it2]) {
+                last_value = arr1[it1];
+                it1++, cou++;
+                if(cou==k) return last_value;
+            }
+            else if(arr1[it1]>arr2[it2]) {
+                last_value = arr2[it2];
+                it2++, cou++;
+                if(cou==k) return last_value;
+            }
+            else {
+                last_value = arr1[it1];
+                it1++, cou++;
+                if(cou==k) return last_value;
+                last_value = arr2[it2];
+                it2++, cou++;
+                if(cou==k) return last_value;
+            }
+        }
+        if(cou<k) {
+            if(it2==m) {
+                while(it1<n && cou<k) it1++, cou++;
+                return arr1[it1-1];
+            }
+            else {
+                while(it2<m && cou<k) it2++, cou++;
+                return arr2[it2-1];
+            }
+        }
+    }
+};
+
+// { Driver Code Starts.
+ 
+// Driver code
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--){
+		int n,m,k;
+		cin>>n>>m>>k;
+		int arr1[n],arr2[m];
+		for(int i=0;i<n;i++)
+			cin>>arr1[i];
+		for(int i=0;i<m;i++)
+			cin>>arr2[i];
+		
+		Solution ob;
+        cout << ob.kthElement(arr1, arr2, n, m, k)<<endl;
+	}
+    return 0;
+}  // } Driver Code Ends
