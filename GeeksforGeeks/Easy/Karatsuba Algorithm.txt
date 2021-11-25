@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+  public:
+    long long karatsubaAlgo(string A, string B) {
+        // code here
+        long long lenA = A.size(), lenB = B.size();
+        long long a = 0, b = 0;
+        for(long long i=lenA-1, v = 1; i>=0; i--, v*=2) if(A[i]=='1') a += v;
+        for(long long i=lenB-1, v = 1; i>=0; i--, v*=2) if(B[i]=='1') b += v;
+        //cout<<a<<" "<<b<<endl;
+        return a*b;
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        string A,B;
+
+        cin>>A>>B;
+
+        Solution ob;
+        cout << ob.karatsubaAlgo(A,B) << endl;
+    }
+    return 0;
+}  // } Driver Code Ends
