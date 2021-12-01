@@ -1,0 +1,82 @@
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+
+    int bfs(int source, int destination, vector<int> adj[]) {
+        int dist[destination+1] = {0};
+        int visited[destination+1] = {0};
+        dist[source] = 0;
+        
+        queue<int> q;
+        q.push(source);
+        
+        while(!q.empty()) {
+            int vn = q.front();
+            q.pop();
+            visited[vn] = 1;
+            for(auto child: adj[vn]) {
+                if(visited[child]==0) {
+                    visited[child] = 1;
+                    dist[child] = dist[vn]+1;
+                    q.push(child);
+                    if(child==destination) return dist[destination];
+                }
+            }
+        }
+        
+        return dist[destination];
+    }
+    int minThrow(int N, int arr[]){
+        // code here
+        map<int, int> mp;
+        for(int i=1; i<=30; i++) mp[i] = 0;
+        for(int i=0; i<N*2; i+=2) {
+            int a = arr[i];
+            int b = arr[i+1];
+            mp[a] = b;
+        }
+        
+        vector<int> adj[30+1];
+        for(int cur=1; cur<=30; cur++) {
+            for(int diceValue=1; diceValue<=6; diceValue++) {
+                int next = cur+diceValue;
+                if(next<=0 || next>30) continue;
+                if(mp[next]>0) next = mp[next];
+                adj[cur].push_back(next);
+            }
+        }
+        
+        // for(int i=0; i<=30; i++) {
+        //     cout<< i << " - ";
+        //     for(int j=0; j<adj[i].size(); j++) cout<< adj[i][j] << " ";
+        //     cout<<endl;
+        // }
+        
+        return bfs(1, 30, adj);
+    }
+};
+
+// { Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int N;
+        cin>>N;
+        int arr[2*N];
+        for(int i = 0;i < 2*N;i++)
+            cin>>arr[i];
+        
+        Solution ob;
+        cout<<ob.minThrow(N, arr)<<"\n";
+    }
+    return 0;
+}  // } Driver Code Ends
