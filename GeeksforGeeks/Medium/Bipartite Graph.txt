@@ -1,0 +1,61 @@
+
+ // } Driver Code Ends
+class Solution {
+public:
+    bool dfs(int s, int n, vector<int> &color, vector<int> adj[]) {
+        
+        queue<int> q;
+        q.push(s);
+        color[s] = 1;
+        
+        while(!q.empty()) {
+            int u = q.front();
+            q.pop();
+            for(auto v: adj[u]) {
+                if(color[v]==0) {
+                    if(color[u]==1) color[v] = 2;
+                    else color[v] = 1;
+                    q.push(v);
+                }
+                else {
+                    if(color[u]==color[v]) return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+	bool isBipartite(int V, vector<int>adj[]){
+	    // Code here
+	    vector<int> color(V, 0);
+	    for(int i=0; i<V; i++) {
+	        if(color[i]==0) {
+	            if(dfs(i, V, color, adj)==false) return false;
+	        }
+	    }
+	    return true;
+	}
+
+};
+
+// { Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		int V, E;
+		cin >> V >> E;
+		vector<int>adj[V];
+		for(int i = 0; i < E; i++){
+			int u, v;
+			cin >> u >> v;
+			adj[u].push_back(v);
+			adj[v].push_back(u);
+		}
+		Solution obj;
+		bool ans = obj.isBipartite(V, adj);    
+		if(ans)cout << "1\n";
+		else cout << "0\n";  
+	}
+	return 0;
+}  // } Driver Code Ends

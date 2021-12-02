@@ -1,0 +1,33 @@
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+class Solution {
+  public:
+    long long int nthEvenFibonacci(long long int N) {
+        // code here
+        if(N==1LL) return 2LL;
+        long long int mod = 1000000007;
+        long long int fib1 = 1LL, fib2 = 2LL, fib3;
+        for(int i=0; i<3*(int)(N-1); i++) {
+            fib3 = (fib1 + fib2)%mod;
+            fib1 = fib2%mod;
+            fib2 = fib3%mod;
+        }
+        return fib3;
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        long long int n;
+        cin >> n;
+        Solution ob;
+        cout << ob.nthEvenFibonacci(n) << endl;
+    }
+    return 0;
+}
+  // } Driver Code Ends

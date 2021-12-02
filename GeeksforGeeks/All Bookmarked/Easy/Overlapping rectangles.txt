@@ -1,0 +1,38 @@
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
+class Solution {
+  public:
+    int doOverlap(int L1[], int R1[], int L2[], int R2[]) {
+        // code here
+        int x = 0, y = 1;
+        // if(L2[x]>R1[x]) cout<<1;
+        // if(R2[x]<L1[x]) cout<<2;
+        // if(L2[y]>R1[y]) cout<<3;
+        // if(R2[y]<L1[y]) cout<<4<<"\n";
+        
+        
+        if(L2[x]>R1[x]  || R2[x]<L1[x]) return false;
+        if(L2[y]<R1[y]  || R2[y]>L1[y]) return false;
+        return true;
+    }
+};
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int p[2], q[2], r[2], s[2];
+        cin >> p[0] >> p[1] >> q[0] >> q[1] >> r[0] >> r[1] >> s[0] >> s[1];
+        Solution ob;
+        int ans = ob.doOverlap(p, q, r, s);
+        cout << ans << "\n";
+    }
+}  // } Driver Code Ends

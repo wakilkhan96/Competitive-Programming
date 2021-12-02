@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+//User function template for C++
+
+
+class Solution{
+public:
+    long long mod = 1000000007;
+    long long fact(long long N, vector<long long> &dp) {
+        if(dp[N]!= -1LL) return dp[N];
+        dp[N] = (N*fact(N-1LL, dp)%mod)%mod;
+        return dp[N];
+    }
+    vector<long long> factorial(vector<long long> a, int n) {
+        vector<long long> dp(100001, -1LL);
+        dp[0] = 1LL;
+        dp[1] = 1LL;
+        dp[2] = 2LL;
+        long long r = fact(100000, dp);
+        
+        vector<long long> res(n, 0LL);
+        for(int i=0; i<a.size(); i++) {
+            res[i] = dp[a[i]];
+        }
+        
+        return res;
+    }
+};
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, i;
+        cin >> n;
+        vector<long long> a(n);
+        for (i = 0; i < n; i++) {
+            cin >> a[i];
+        }
+        Solution ob;
+        vector<long long> res = ob.factorial(a, n);
+        for (i = 0; i < n; i++) {
+            cout << res[i] << " ";
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+  // } Driver Code Ends
