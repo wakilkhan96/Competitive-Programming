@@ -1,0 +1,80 @@
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
+class Solution {
+    public:
+    bool valid(int x, int y, int N, int M, vector< vector<int> > &A) {
+        if(x<0 || x>=N || y<0 || y>=M) return false;
+        if(A[x][y] != 1) return false;
+        return true;
+    }
+    int bfs(pair<int, int> s, pair<int, int> d, int N, int M, vector<vector<int>>& A) {
+        int x = s.first, y = s.second;
+        
+        vector< vector<int> > dist(N, vector<int> (M, 0));
+        
+        queue<pair<int, int> > q;
+        if(valid(x, y, N, M, A) ) q.push({x, y});
+        
+        A[x][y] = 2; //2 means visited
+        dist[x][y] = 0;
+        
+        int dx[] = {-1, 0, +1, 0};
+        int dy[] = {0, +1, 0, -1};
+        //cout<<"->"<<q.size()<<endl;
+        //cout<<x<<" "<<y<<endl;
+        while(!q.empty()) {
+            pair <int, int> p;
+            p = q.front();
+            x = p.first, y = p.second;
+            q.pop();
+            
+            for(int i=0; i<4; i++) {
+                int _x = dx[i] + x;
+                int _y = dy[i] + y;
+                
+                if(valid(_x, _y, N, M, A) ) {
+                    //cout<<_x<<" "<<_y<<endl;
+
+                    A[_x][_y] = 2;
+                    dist[_x][_y] = dist[x][y] + 1;
+                    q.push({_x, _y});
+                    if(_x==d.first && _y == d.second) return dist[_x][_y];
+                }
+            }
+        }
+        
+        return -1;
+    }
+    
+    int shortestDistance(int N, int M, vector<vector<int>> A, int X, int Y) {
+    // code here
+    vector< vector<int> > visited(N, vector<int> (N, 0));
+	    pair<int, int> s, d;
+	    s.first = 0, s.second = 0;
+	    d.first = X, d.second = Y;
+	    
+	    return bfs(s, d, N, M, A);
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N, M, x, y;
+        cin >> N >> M;
+        vector<vector<int>> v(N, vector<int>(M));
+        for (int i = 0; i < N; i++)
+            for (int j = 0; j < M; j++) cin >> v[i][j];
+        cin >> x >> y;
+        Solution ob;
+        cout << ob.shortestDistance(N, M, v, x, y) << "\n";
+    }
+}  // } Driver Code Ends
