@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+  public:
+    long long dp[1005][1005];
+    long long ways(int i, int n, long long cur, long long total, int s[]) {
+        if(i>=n || cur>total) return 0LL;
+        if(cur==total) return 1LL;
+        if(dp[i][cur]!=-1LL) return dp[i][cur];
+        long long ways1 = 0LL, ways2 = 0LL;
+        ways1 = ways(i, n, cur+s[i], total, s);
+        ways2 = ways(i+1, n, cur, total, s);
+        return dp[i][cur]=ways1+ways2;
+    }
+    long long count(int S[], int m, long long n) {
+        // code here.
+        memset(dp, -1LL, sizeof dp);
+        long long total = n;
+        return ways(0, m, 0LL, total, S);
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, m;
+        cin >> n >> m;
+        int arr[m];
+        for (int i = 0; i < m; i++) cin >> arr[i];
+        Solution ob;
+        cout << ob.count(arr, m, n) << endl;
+    }
+
+    return 0;
+}  // } Driver Code Ends
