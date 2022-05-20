@@ -1,0 +1,133 @@
+class Solution {
+public:
+    int  _countBits(int i, vector<int>& dp) {
+        int n = i, cou = 0;
+        while(n) {
+            if(dp[n]>0) return dp[i] = cou+dp[n];
+            if(n&1) cou++; // count of 1's
+            n /= 2;
+        }
+        return dp[i] = cou;
+    }
+    vector<int> countBits(int n) {
+        vector<int> bitCounts(n+1, 0);
+        for(int i=1; i<=n; i++) {
+            _countBits(i, bitCounts);
+        }
+        return bitCounts;
+    }
+};
+
+
+https://leetcode.com/problems/counting-bits/discuss/1808002/A-very-very-EASY-to-go-EXPLANATION
+hi-malik
+
+Let's understand this problem using an example :-
+
+Input: n = 5
+Output: [0,1,1,2,1,2]
+So, from 0 to n i.e. -> 0 to 5 how many numbers are present in b/w 0 & 5, we have to return no. of 1 present in thier binary representation in our array.
+
+Wait this line is looking little bit confusing, let's understand it visually:-
+
+image
+
+Now, I hope you understand the problem. Now another question raise in your mind. But how do we get that??
+
+Alright, wait let's see:-
+To form 0 we want only 0
+To form 1 we want only 1
+
+By saying that i can say if you have any even no. let's say 4. So, you want the answer of 4. Whatever the answer of 4 is the answer of 2 as well. So, i can say that even = n / 2. Lemmi, show you:
+
+
+2      0010 --> 1
+3      0011
+4      0100 --> 1
+I hope you got the idea. It's simple to get even no. divide by 2
+But what about for odd, so to get the value of odd. It's very simple as well. For odd = 1 + n / 2 let's say for 5, what ever the answer of 5 os the answer of 3 as well. Lemmi, show you:
+
+
+3      0011 --> 2
+4      0100
+5      0101 --> 2
+I hope you got the idea. It's simple to get odd no. divide by 2 + 1
+Okay, now you got the idea & you can easily say that we will get our answer using recursively. Let's calculate for 15
+
+image
+
+We get kind of a recursive tree.
+
+Let's code it:
+
+class Solution {
+    public int[] countBits(int n) {
+        int res[] = new int[n + 1]; // create one result array, 
+        // & our array size is n + 1 because we have to cover 0 as well
+        
+        for(int i = 0; i <= n; i++){ // run a loop to store all the values we get from a solve function
+            res[i] = solve(i);
+        }
+        return res;
+    }
+    public int solve(int n){
+        // base condition
+        if(n == 0) return 0;
+        if(n == 1) return 1;
+        
+        if(n % 2 == 0) return solve(n / 2); // handling even case
+        else return 1 + solve(n / 2); // handling odd case
+    }
+}
+ANALYSIS :-
+
+Time Complexity :- BigO(NlogN)
+
+Space Complexity :- BigO(N)
+
+But, there is one problem in this code although it will run very well.
+Let's understand what the issue is:
+Let's assume we our n is 15
+
+For n = 15, we have to make recursive tree for every value from 15->14->13 ----- > 0
+
+image
+
+As you can see, we are repeating the calculation for every value. If we store our fewer down value then we don't need to calculate again for them, we simply return our answer. Example :- for 15 going to 7 all the way to 1. But in 14 if you see we have already calculate for 7. Then we don't want to repeat for 15, we simply return our answer from there. By doing that we can save so many recursive call.
+
+We'll use memoisation. For example we have to calculate for 6 for that the value of 3 is same to that. so, we don't need to call back for more.
+
+Now let's code it: Just add 2 more line of code to the previous code
+
+class Solution {
+    public int[] countBits(int n) {
+        int res[] = new int[n + 1]; 
+        
+        for(int i = 0; i <= n; i++){ 
+            res[i] = solve(i, res);
+        }
+        return res;
+    }
+    public int solve(int n, int memo[]){
+
+        if(n == 0) return 0;
+        if(n == 1) return 1;
+        
+        if(memo[n] != 0) return memo[n]; // if memo of n answer is already available we will re-use it & not go further for calculation
+        // but if you are coming for the first time then, store that value in memo
+        if(n % 2 == 0) {
+            memo[n] = solve(n / 2, memo);
+            return solve(n / 2, memo);
+        }
+        else {
+            memo[n] = 1 + solve(n / 2, memo);
+            return 1 + solve(n / 2, memo);
+        } 
+    }
+}
+ANALYSIS :-
+
+Time Complexity :- BigO(N)
+
+Space Complexity :- BigO(N)
+

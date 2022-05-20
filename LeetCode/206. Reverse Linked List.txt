@@ -1,0 +1,73 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+ 
+ 
+ 
+ 
+ /*  Iterative */
+ 
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode* previous = nullptr;
+        ListNode* current = head;
+        ListNode* next = head;
+        
+        while(current!=nullptr) {
+            next = current->next;
+            current->next = previous;
+            previous = current;
+            current = next;
+        }
+        
+        return previous;
+    }
+};
+
+Success
+Details 
+Runtime: 4 ms, faster than 94.74% of C++ online submissions for Reverse Linked List.
+Memory Usage: 8.3 MB, less than 42.37% of C++ online submissions for Reverse Linked List.
+
+
+
+
+
+
+
+ 
+ 
+/*  recursive */
+
+class Solution {
+public:
+    ListNode* headNode;
+    ListNode* reverseLinkedList(ListNode* parent, ListNode* child) {
+        if(child==nullptr) {
+            headNode = parent;
+            return headNode;
+        }
+        ListNode* node = reverseLinkedList(child, child->next);
+        node->next = parent;
+        return parent;
+    }
+    ListNode* reverseList(ListNode* head) {
+        ListNode* node = reverseLinkedList(nullptr, head);
+        return headNode;
+    }
+};
+
+Success
+Details 
+Runtime: 6 ms, faster than 78.52% of C++ online submissions for Reverse Linked List.
+Memory Usage: 8.5 MB, less than 20.14% of C++ online submissions for Reverse Linked List.
+ 
+ 

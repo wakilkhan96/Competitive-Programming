@@ -1,0 +1,47 @@
+class Solution {
+public:
+    vector<string> combinations;
+    string combination;
+    
+    void findCombination(int index, string& digits, vector< vector<char> >& mp) {
+        if(index==digits.size()) {
+            combinations.push_back(combination);
+            return;
+        }
+        
+        for(int i=0; i<mp[digits[index]-'0'].size(); i++) {
+            combination.push_back(mp[digits[index]-'0'][i]);
+            findCombination(index+1, digits, mp);
+            combination.pop_back();
+        }
+    }
+    vector<string> letterCombinations(string digits) {
+        
+        if(digits == "") return {};
+        
+        // mapping of digit to letters
+        vector< vector<char> > mp;
+        mp.push_back({});                    // 0
+        mp.push_back({});                    // 1
+        mp.push_back({'a', 'b', 'c'});       // 2
+        mp.push_back({'d', 'e', 'f'});       // 3
+        mp.push_back({'g', 'h' , 'i'});      // 4
+        mp.push_back({'j', 'k', 'l'});       // 5
+        mp.push_back({'m', 'n', 'o'});       // 6
+        mp.push_back({'p', 'q', 'r', 's'});  // 7
+        mp.push_back({'t', 'u', 'v'});       // 8
+        mp.push_back({'w', 'x', 'y', 'z'});  // 9
+        
+        findCombination(0, digits, mp);
+        
+        return combinations;
+        
+    }
+};
+
+
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Letter Combinations of a Phone Number.
+Memory Usage: 6.6 MB, less than 35.01% of C++ online submissions for Letter Combinations of a Phone Number.

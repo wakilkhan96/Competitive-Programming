@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<vector<int>> result;
+    void permute(int index, vector<int>& nums) {
+        if(index>=nums.size()) {
+            result.push_back(nums);
+            return;
+        }
+        for(int i=index; i<nums.size(); i++) {
+            swap(nums[index], nums[i]);
+            permute(index+1, nums);
+            swap(nums[index], nums[i]);
+        }
+        
+        
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        permute(0, nums);
+        return result;
+    }
+};

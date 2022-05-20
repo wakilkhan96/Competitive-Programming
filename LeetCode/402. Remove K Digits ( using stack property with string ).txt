@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string removeKdigits(string num, int k) {
+        int len = num.size();
+        
+        string str;
+        
+        //lets assume we have local maximas, and also have minimas next to maximas 
+        str.push_back(num[0]);
+        for(int i=1; i<len; i++) {
+            
+            while(str.size()!=0 && str.back()>num[i] && k-->0) str.pop_back();  // when local maxima is detected, we are removing it
+            
+            // if stack "str" is empty and current digit is '0', we will not push it cause it will be leading zero, so no need to push it 
+            if(str.size()==0 && num[i]=='0') continue;
+            else str.push_back(num[i]);
+            
+        }
+        
+        // lets assume we could not find total local maximas equal to k/ or we could find no maxima as disgits are arranged in ascending order
+        // so when k is left, we will remove digits from right side to make "num" smaller
+        while(str.size()!=0 && k-->0) str.pop_back();  // popping least significant digits
+        
+        // return str;
+        if(str=="") return "0";
+        return str;
+        
+    }
+};
+
+
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Remove K Digits.
+Memory Usage: 6.9 MB, less than 88.00% of C++ online submissions for Remove K Digits.

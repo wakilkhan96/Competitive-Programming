@@ -1,0 +1,2 @@
+# Write your MySQL query statement below
+select name as Customers from Customers where id != all(select customerId from Orders)

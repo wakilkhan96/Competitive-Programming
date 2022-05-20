@@ -1,0 +1,24 @@
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+
+	// nums2 have elements from index 0 to n-1, let, last index j = n-1
+	// whether nums1 have data elements from index 0 to m-1, left indices are filled with 0, let, last index i = m-1
+	// total size of nums1 is euals to m+n, so last index = m+n-1
+	// we will work from index k=m+n-1 rather than index 0, and check which is bigger nums1[i] or nums2[j], 
+	// which ever is bigger, we'll put that at index k, and decreament k and (i or j)  
+
+        int i = m-1, j = n-1, k = m+n-1;
+        while(i>=0 && j>=0) {
+            if(nums1[i]>=nums2[j]) nums1[k--] = nums1[i--];
+            else nums1[k--] = nums2[j--];
+        }
+        while(i>=0) nums1[k--] = nums1[i--];
+        while(j>=0)nums1[k--] = nums2[j--];
+    }
+};
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Merge Sorted Array.
+Memory Usage: 9.1 MB, less than 72.77% of C++ online submissions for Merge Sorted Array.

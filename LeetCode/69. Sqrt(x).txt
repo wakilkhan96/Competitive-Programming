@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int mySqrt(int x) {
+        return (int) _sqrt(x);
+    }
+    
+    int _sqrt(int x) {
+        double l=0, r=x, mid;
+        for(int i=0; i<64; i++) {
+            mid = (l+r)/2.00;
+            if(mid*mid==x) return mid;
+            else if(mid*mid > x) r = mid;
+            else l = mid;
+        }
+        return mid;
+    }
+};
+
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Sqrt(x).
+Memory Usage: 5.7 MB, less than 95.63% of C++ online submissions for Sqrt(x).

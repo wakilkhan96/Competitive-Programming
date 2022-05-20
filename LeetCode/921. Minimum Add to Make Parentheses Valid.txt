@@ -1,0 +1,68 @@
+class Solution {
+public:
+    int minAddToMakeValid(string s) {
+        int count;
+        
+        count = 0;
+        for(int i=0; i<s.size(); i++) {
+            
+            // incase of '(' count opening braces
+            if(s[i]=='(') count++;
+            
+            // incase of ')' check few conditions 
+            else if(s[i]==')') {
+                // if count is not 0 then it is sure that previous indices contains '(' 
+                // so as we found a valid pair, so we will decrease count
+                if(count>0) count--;
+                else s[i] = '#';
+                // but, if count is 0 then ')' at s[i] have no '(' before so, we will mark as '#'
+            }
+        }
+        
+        
+        count = 0;
+        for(int i=s.size()-1; i>=0; i--) {
+            
+            // incase of ')' count closing braces
+            if(s[i]==')') count++;
+            
+            // incase of '(' check few conditions 
+            else if(s[i]=='(') {
+                // if count is not 0 then it is sure that previous indices from end of string contains ')' 
+                // so as we found a valid pair, so we will decrease count
+                if(count>0) count--;
+                else s[i] = '#';
+                // but, if count is 0 then '(' at s[i] have no ')' before so, we will mark as '#'
+            }
+        }
+        
+        
+        int needed = 0;
+        // O(N) 2-nd pass, counting braces which have no pair
+        for(int i=0; i<s.size(); i++) { 
+            if(s[i]=='#') needed++;
+        }
+        return needed;
+    }
+};
+
+
+
+or,
+
+
+
+
+
+class Solution {
+public:
+    int minAddToMakeValid(string num) {
+        stack<char>st;
+        for(int i=0;i<size(num);i++) {
+            if(!st.empty()&&st.top()=='('&&num[i]==')') st.pop();
+            else st.push(num[i]);       
+        }
+    
+        return st.size();
+    }
+};

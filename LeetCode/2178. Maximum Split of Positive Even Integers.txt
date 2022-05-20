@@ -1,0 +1,69 @@
+class Solution {
+public:
+    vector<long long> maximumEvenSplit(long long finalSum) {
+        if(finalSum&1LL) return {};
+        vector<long long> nums;
+        for(int i=2; i<=finalSum; i+=2) {
+            nums.push_back(i);
+            finalSum -= i;
+        }
+        
+        if(finalSum>0) {
+            nums[nums.size()-1] += finalSum; 
+        }
+        
+        return nums;
+    }
+};
+
+  Technique
+// So it's clear from question that if n is odd, answer is not possible (we can't represent a odd number as a sum of even numbers)
+
+// Now if n is even , then we have to make the largest list of unique even number such that the sum is equal to given n.
+
+// Now to make the largest we have to take smallest numbers first like 2,4,6,8... and so on.
+
+// but wait, what happen if we are doing in this manner and the total sum is greater than desired , 
+// no worries , we will do this step untill our sum is less than or equal to given number , 
+// and just add the remaining difference to last number in the list.
+
+
+
+
+
+
+/*
+	recursive approach - " Time Limit Exceeded "
+
+class Solution {
+public:
+    vector<long long> ans;
+    vector<long long> num;
+    void findIntegers(long long i, long long current, long long target) {
+        if(current>target || i>target) return;
+        if(current==target) {
+            if(num.size()>ans.size()) {
+                ans.clear();
+                ans = num;
+            }
+            return;
+        }
+        
+        num.push_back(i);
+        findIntegers(i+2, current+i, target);
+        num.pop_back();
+        findIntegers(i+2, current, target);
+        return;
+    } 
+    vector<long long> maximumEvenSplit(long long finalSum) {
+        ans.clear();
+        if(finalSum%2==0) ans.push_back(finalSum);
+        else return ans;
+        num.clear();
+        findIntegers(2, 0, finalSum);
+        return ans;
+    }
+};
+
+
+*/

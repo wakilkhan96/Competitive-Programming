@@ -1,0 +1,47 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    int pairSum(ListNode* head) {
+        ListNode* newHead = new ListNode(0);
+        newHead->next = head;
+        head = newHead;
+        
+        ListNode* previous = nullptr;
+        ListNode* current = head->next;
+        ListNode* next = nullptr;
+        
+        ListNode* slow = current;
+        ListNode* fast = current;
+        while(fast!=nullptr && fast->next!=nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
+            
+            next = current->next;
+            current->next = previous;
+            previous = current;
+            current = next;
+        }
+        
+        ListNode* l1 = previous;
+        ListNode* l2 = current;
+        
+        // cout<<l1->val<<" - "<<l2->val<<endl;
+        int maxi = 0;
+        while(l1!=nullptr && l2!=nullptr) {
+            maxi = max(maxi, l1->val+l2->val);
+            l1 = l1->next;
+            l2 = l2->next;
+        }
+        
+        return maxi;
+    }
+};

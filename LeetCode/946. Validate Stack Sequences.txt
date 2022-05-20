@@ -1,0 +1,169 @@
+// both are same logic but one uses extra space stack and another does not  
+
+// idea: idea is to insert every number into a stack 
+// and if "popped" array matches with top of stack then pop elements
+
+// without stack, but using array as stack
+class Solution {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        int i=0, j=0;
+        for(auto element: pushed) {
+            pushed[i] = element; // using pushed array as stack
+            
+            while(i>=0 && popped[j]==pushed[i]) { 
+                i--;
+                j++;
+            }
+            
+            i++;
+        }
+        
+        if(i==0) return true;
+        return false;
+    }
+};
+
+
+
+
+
+// using stack
+
+class Solution {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        stack<int> st;
+        for(int i=0, j=0; i<pushed.size(); i++) {
+            if(i<pushed.size()) st.push(pushed[i]);
+            while(!st.empty() && popped[j]==st.top()) { 
+                st.pop();
+                j++;
+            }
+        }
+        
+        if(st.empty()) return true;
+        return false;
+    }
+};
+
+
+
+https://leetcode.com/problems/validate-stack-sequences/discuss/1853109/C%2B%2B-oror-2-Approaches-oror-Explained-With-Algorithm-oror-Easy-and-Simple
+
+946. Validate Stack SequencesParentheses
+KNOCKCAT
+
+1. Easy C++
+2. Line by Line Explanation with Comments.
+3. Detailed Explanation ✅
+4. Stack Approach with initution.
+5. Please Upvote if it helps⬆️
+6. Link to my Github Profile contains a repository of Leetcode with all my Solutions. ⬇️
+	// 😉If you Like the repository don't foget to star & fork the repository😉
+
+LeetCode LINK TO LEETCODE REPOSITORY
+
+APPROACH 1
+ALGORITHM
+
+If the element X has been pushed to the stack then check if the top element in the pop[] sequence is X or not.
+If it is X then pop it right now else top of the push[] sequence will be changed and make the sequences invalid.
+similarly, do the same for all the elements and check if the stack is empty or not in the last.
+If empty then return True else return False.
+Time Complexity O(N)
+Space Complexity O(N)
+CODE WITH EXPLANATION
+
+				// 😉😉😉😉Please upvote if it helps 😉😉😉😉
+class Solution {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        stack<int> s ;   // an empty stack
+        int j = 0;
+        for(int i= 0; i<pushed.size(); ++i)
+        {
+            s.push(pushed[i]);
+            
+			// check if pushed values is next to pe popped out.
+            while(!s.empty() && s.top() == popped[j])
+            {
+                s.pop();
+                ++j;
+            }
+        }
+		// if stack is empty means sequence is correct.
+        return s.empty();
+    }
+};
+
+APPROACH 2
+ALGORITHM
+
+Using pushed vector as a stack.
+Same Steps as above approach.
+As both pushed and popped are permutation of each other.
+At end the vector will be empty if sequence is correct.
+TIME COMPLEXITY O(n)
+SPACE COMPLEXITY O(1)
+Though In second approach for achieveing space complexity of O(1), i am modifying inputs, of which i am not in favour.
+CODE WITH EXPLANATION
+
+						// 😉😉😉😉Please upvote if it helps 😉😉😉😉
+class Solution {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        int i = 0, j = 0;
+        for(int x :  pushed)
+        {
+            pushed[i++] = x;
+            // check that current pushed element matches with popped sequence
+            while(i> 0 && pushed[i-1] == popped[j])
+            {
+                --i;
+                ++j;
+            }
+        }
+        // as pushed is a permutation of stack so at end it should be empty
+        return i == 0;
+    }
+};
+
+
+
+
+Solution
+Approach 1: Greedy
+Intuition
+
+We have to push the items in order, so when do we pop them?
+
+If the stack has say, 2 at the top, then if we have to pop that value next, we must do it now. That's because any subsequent push will make the top of the stack different from 2, and we will never be able to pop again.
+
+Algorithm
+
+For each value, push it to the stack.
+
+Then, greedily pop values from the stack if they are the next values to pop.
+
+At the end, we check if we have popped all the values successfully.
+
+
+Complexity Analysis
+
+Time Complexity: O(N)O(N), where NN is the length of pushed and popped.
+
+Space Complexity: O(N)O(N).
+
+
+
+
+
+
+
+
+
+
+
+
+

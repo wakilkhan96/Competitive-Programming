@@ -1,0 +1,55 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        string str = "";
+        int i = a.size()-1, j = b.size()-1, carry = 0;
+        
+        while(i>=0 && j>=0) {
+            int sum = binaryCharSum(a[i--], b[j--], carry);
+            string s = intToString(sum%10);
+            if(sum>=10) carry = 1;
+            else carry = 0;
+            str =  s + str;
+        }
+        
+        while(i>=0) {
+            int sum = binaryCharSum(a[i--], '0', carry);
+            string s = intToString(sum%10);
+            if(sum>=10) carry = 1;
+            else carry = 0;
+            str =  s + str;
+        }
+        while(j>=0) {
+            int sum = binaryCharSum(b[j--], '0', carry);
+            string s = intToString(sum%10);
+            if(sum>=10) carry = 1;
+            else carry = 0;
+            str =  s + str;
+        }
+        
+        if(carry) str = "1" + str;
+        
+        return str;
+    }
+    
+    int binaryCharSum(char ch1, char ch2, int carry) {
+        int a = ch1-'0', b = ch2-'0';
+        if(a+b+carry == 3) return 11;
+        if(a+b+carry == 2) return 10;
+        return a+b+carry;
+    }
+    int charToInt(char ch) {
+        return ch-'0';
+    }
+    string intToString(int i) {
+        string str = "0";
+        str[0] = str[0]+i;
+        return str;
+    }
+    
+};
+
+
+
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Add Binary.
+Memory Usage: 7 MB, less than 23.45% of C++ online submissions for Add Binary.

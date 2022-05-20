@@ -1,0 +1,100 @@
+class Solution {
+public:
+    bool isValidHour(string hh) {
+        int hour = 0;
+        hour = (hh[0]-'0')*10 + (hh[1]-'0');
+        return hour<=23;
+    }
+    bool isValidMinute(string mm) {
+        int minute = 0;
+        minute = (mm[0]-'0')*10 + (mm[1]-'0');
+        return minute<=59;
+    }
+    string maximumTime(string time) {
+        string hh = time.substr(0, 2);
+        string mm = time.substr(3, 2);
+        // cout<<hh<<" "<<mm<<endl;
+        
+        if(hh[0]=='?' && hh[1]=='?') hh = "23";
+        if(mm[0]=='?' && mm[1]=='?') mm = "59";
+        
+        string timeDigits;
+        char digit;
+        
+        timeDigits = "00";
+        digit = '9';
+        while(hh[0]=='?') {
+            timeDigits = hh;
+            timeDigits[0] = digit--;
+            if(isValidHour(timeDigits)) {
+                hh = timeDigits;
+                break;
+            }
+        }
+        
+        timeDigits = "00";
+        digit = '9';
+        while(hh[1]=='?') {
+            timeDigits = hh;
+            timeDigits[1] = digit--;
+            if(isValidHour(timeDigits)) {
+                hh = timeDigits;
+                break;
+            }
+        }
+        
+        timeDigits = "00";
+        digit = '9';
+        while(mm[0]=='?') {
+            timeDigits = mm;
+            timeDigits[0] = digit--;
+            if(isValidMinute(timeDigits)) {
+                mm = timeDigits;
+                break;
+            }
+        }
+        
+        timeDigits = "00";
+        digit = '9';
+        while(mm[1]=='?') {
+            timeDigits = mm;
+            timeDigits[1] = digit--;
+            if(isValidMinute(timeDigits)) {
+                mm = timeDigits;
+                break;
+            }
+        }
+        
+        return hh+":"+mm;
+    }
+};
+
+
+
+
+
+
+Short solution:
+
+class Solution {
+    public String maximumTime(String time) {
+        char arr[] = time.toCharArray();
+        
+        
+            if( arr[0] == '?'){
+                arr[0] =  (arr[1] <= '3' || arr[1] == '?') ? '2' : '1';
+            }
+            if(arr[1] == '?'){
+                arr[1] =  (arr[0] == '2') ? '3' : '9';
+            }
+            if(arr[3] == '?'){
+                arr[3] = '5';
+            }
+            if(arr[4] == '?'){
+                arr[4] = '9';
+            }
+        
+        return String.valueOf(arr);
+       
+    }
+}

@@ -1,0 +1,18 @@
+class Solution {
+public:
+    bool isAlphabet(char ch) {
+        return (ch>='a' && ch<='z')||(ch>='A' && ch<='Z');
+    }
+    
+    int lengthOfLastWord(string s) {
+        int cou =0;
+        for(int i=s.size()-1; i>=0; i--) {
+            if(isAlphabet(s[i])) cou++;
+            else {
+                if(cou>0) break;
+            }
+        }
+        
+        return cou;
+    }
+};

@@ -1,0 +1,86 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+ 
+ 
+ 
+/* faster solution */
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        ListNode* newHead = new ListNode(0);
+        newHead->next = head;
+        head = newHead;
+        
+        ListNode* previous = head;
+        ListNode* current = head->next;
+        
+        while(current!=nullptr) {
+            // if current->val==val, find next node which is not equals to val, and make it next of previous
+            // edge case head = [1,2,6,6,6,3,4,5,6], val = 6
+            
+            while(current!=nullptr && current->val==val) current = current->next;
+
+            previous->next = current;
+            previous = previous->next;
+            
+            if(current!=nullptr) current = current->next;
+                
+        }
+        return head->next;
+    }
+};
+
+
+
+/* detailed solution */
+
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        ListNode* newHead = new ListNode(0);
+        newHead->next = head;
+        head = newHead;
+        
+        ListNode* previous = head;
+        ListNode* current = head->next;
+        
+        while(current!=nullptr) {
+            // if current->val==val, find next node which is not equals to val, and make it next of previous
+            // edge case head = [1,2,6,6,6,3,4,5,6], val = 6
+            if(current->val==val) {
+                while(current!=nullptr && current->val==val) current = current->next;
+                
+                previous->next = current;
+                
+                // if(current) cout<<previous->val<<"->"<<current->val<<"\n";
+                // else cout<<previous->val<<"->"<<"NULL"<<"\n";
+                
+                previous = previous->next;
+                if(current!=nullptr) current = current->next;
+                
+            }
+            // just step forward
+            else {
+                previous = current;
+                current = current->next;
+            }
+        }
+        return head->next;
+    }
+};
+
+
+
+
+Success
+Details 
+Runtime: 20 ms, faster than 92.14% of C++ online submissions for Remove Linked List Elements.
+Memory Usage: 15 MB, less than 82.14% of C++ online submissions for Remove Linked List Elements.

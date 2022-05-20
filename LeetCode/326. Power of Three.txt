@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool isPowerOfThree(int n) {
+        if(n<=0) return false;
+        n = abs(n);
+        double log_ans = log10((double)n)/log10(3.00);
+        if(log_ans-(int)log_ans>0) return false;
+        return true;
+    
+    }
+};
+
+
+
+
+class Solution {
+public:
+	bool isPowerOfThree(int n) {
+        if (n < 1) {
+            return false;
+        }
+
+        while (n % 3 == 0) {
+            n /= 3;
+        }
+
+        return n == 1;
+    }
+}

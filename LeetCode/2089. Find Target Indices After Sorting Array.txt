@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int lower_bound(vector<int>& arr, int target) {
+        int l = -1, r = arr.size(), mid = 0;
+        while(l+1<r) {
+            mid = (l+r)/2;
+            if(arr[mid]<target) l = mid;
+            else r = mid;
+        }
+        return r;
+    }
+    int upper_bound(vector<int>& arr, int target) {
+        int l = -1, r = arr.size(), mid = 0;
+        while(l+1<r) {
+            mid = (l+r)/2;
+            if(arr[mid]>target) r = mid;
+            else l = mid;
+        }
+        return l;
+    }
+    
+    vector<int> targetIndices(vector<int>& nums, int target) {
+        sort(nums.begin(), nums.end());
+        
+        int lowerIndex, upperIndex;
+        lowerIndex = lower_bound(nums, target);
+        upperIndex = upper_bound(nums, target);
+        // cout<<lowerIndex<<" "<<upperIndex<<endl;
+        
+        if(lowerIndex==-1 || upperIndex==nums.size()) return {};
+        
+        vector<int> ans;
+        for(int i=lowerIndex; i<=upperIndex; i++) ans.push_back(i);
+        return ans;
+    }
+};

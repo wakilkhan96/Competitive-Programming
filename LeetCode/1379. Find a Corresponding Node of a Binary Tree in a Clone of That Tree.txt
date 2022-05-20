@@ -1,0 +1,209 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+class Solution {
+public:
+    TreeNode* treeTraversal(TreeNode* root, TreeNode* clonedRoot, TreeNode* target) {
+        if(root==nullptr) return nullptr;
+        if(root==target) return clonedRoot;
+        
+        TreeNode* left = treeTraversal(root->left, clonedRoot->left, target);
+        TreeNode* right = treeTraversal(root->right, clonedRoot->right, target);
+        
+        if(left!=nullptr) return left;
+        return right;
+    }
+    
+    TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {
+        return treeTraversal(original, cloned, target);
+    }
+};
+
+
+
+
+
+
+
+Solution
+Overview
+How to Solve
+
+Let's traverse both trees in parallel, and once the target node is identified in the first tree, return the corresponding node from the second tree.
+
+How to Traverse the Tree: DFS vs BFS
+
+There are two ways to traverse the tree: DFS depth first search and BFS breadth first search. Here is a small summary
+
+diff
+
+Both are starting from the root and going down, both are using additional structures, what's the difference? Here is how it looks at the big scale: BFS traverses level by level, and DFS first goes to the leaves.
+
+diff
+
+Description doesn't give us any clue which traversal is better to use here. Interview-simple solutions are DFS inorder traversals.
+
+In the Approach 1 and Approach 2 we're going to discuss recursive inorder DFS and iterative inorder DFS traversals. They both need up to \mathcal{O}(H)O(H) space to keep stack, where HH is a tree height.
+
+In the Approach 3, we provide a BFS solution. Normally, it's a bad idea to use BFS during the interview, unless the interviewer would push for it by adding new details into the problem description.
+
+Could We Solve in Constant Space?
+
+No. The problem could be solved in constant space using DFS Morris inorder traversal algorithm, but it modifies the tree, and that isn't allowed here.
+
+Follow up: Repeated Values are Allowed
+
+If duplicate values are not allowed, one could compare node values:
+
+
+Otherwise, one has to compare the nodes:
+
+
+
+Approach 1: DFS: Recursive Inorder Traversal.
+Recursive inorder traversal is extremely simple: follow Left->Node->Right direction, i.e., do the recursive call for the left child, then do all the business with the node (= check if the node is a target one or not), and then do the recursive call for the right child.
+
+diff Figure 1. The nodes are enumerated in the order of visit. To compare different DFS strategies, follow 1-2-3-4-5 direction.
+
+Implementation
+
+
+Complexity Analysis
+
+Time complexity: \mathcal{O}(N)O(N). Since one has to visit each node, where NN is a number of nodes.
+
+Space complexity: \mathcal{O}(N)O(N). In the degenerative tree case (where the tree is shaped like a linked list), all nodes will be on the run-time stack while the deepest node is being processed. If the tree is balanced, the space complexity will be nearer to \mathcal{O}(\log N)O(logN), but remember that for the purposes of complexity analysis, we mostly consider the worst case.
+
+class Solution {
+    TreeNode ans, target;
+    
+    public void inorder(TreeNode o, TreeNode c) {
+        if (o != null) {
+            inorder(o.left, c.left);
+            if (o == target) {
+                ans = c;    
+            }
+            inorder(o.right, c.right);    
+        }
+    }
+    
+    public final TreeNode getTargetCopy(final TreeNode original, final TreeNode cloned, final TreeNode target) {
+        this.target = target;
+        inorder(original, cloned);
+        return ans;
+    }
+}
+
+
+
+
+
+
+Approach 2: DFS: Iterative Inorder Traversal.
+Iterative inorder traversal is straightforward: go left as far as you can, then one step right. Repeat till the end of nodes in the tree.
+
+Current
+1 / 9
+Implementation
+
+Don't use Stack in Java, use ArrayDeque instead.
+
+
+Complexity Analysis
+
+Time complexity: \mathcal{O}(N)O(N). Since one has to visit each node.
+
+Space complexity: \mathcal{O}(N)O(N). In the degenerative tree case (where the tree is shaped like a linked list), all nodes will be on the stack while the deepest node is being processed. If the tree is balanced, the space complexity will be nearer to \mathcal{O}(\log N)O(logN), but remember that for the purposes of complexity analysis, we mostly consider the worst case.
+
+class Solution {
+    public final TreeNode getTargetCopy(final TreeNode original, final TreeNode cloned, final TreeNode target) {
+        Deque<TreeNode> stack_o = new ArrayDeque();
+        Deque<TreeNode> stack_c = new ArrayDeque();
+        TreeNode node_o = original, node_c = cloned;
+
+        while (!stack_o.isEmpty() || node_o != null) {
+            while (node_o != null) {
+                stack_o.add(node_o);
+                stack_c.add(node_c);
+
+                node_o = node_o.left;
+                node_c = node_c.left;
+            }
+            node_o = stack_o.removeLast();
+            node_c = stack_c.removeLast();
+            if (node_o == target) {
+                return node_c;
+            }
+            node_o = node_o.right;
+            node_c = node_c.right;
+        }
+        return null;
+    }
+}
+
+
+
+
+
+Approach 3: BFS: Iterative Traversal.
+Algorithm
+
+Here we implement standard BFS traversal with the queue:
+
+Add root into queue.
+
+While queue is not empty:
+
+Pop out a node from queue.
+
+If the node is a target, we're done.
+
+Add first left and then right child node into queue.
+
+Implementation
+
+Don't use Stack in Java, use ArrayDeque instead.
+
+
+Complexity Analysis
+
+Time complexity: \mathcal{O}(N)O(N) since one has to visit each node.
+
+Space complexity: up to \mathcal{O}(N)O(N) to keep the queue. Let's use the last level to estimate the queue size. This level could contain up to N/2N/2 tree nodes in the case of complete binary tree.
+
+
+class Solution {
+    public final TreeNode getTargetCopy(final TreeNode original, final TreeNode cloned, final TreeNode target) {
+        Deque<TreeNode> queue_o = new ArrayDeque();
+        queue_o.offer(original);
+        
+        Deque<TreeNode> queue_c = new ArrayDeque();
+        queue_c.offer(cloned);
+
+        while (!queue_o.isEmpty()) {
+            TreeNode node_o = queue_o.poll();
+            TreeNode node_c = queue_c.poll();
+            
+            if (node_o == target) {
+                return node_c;   
+            }
+            
+            if (node_o.left != null) {
+                queue_o.offer(node_o.left);
+                queue_c.offer(node_c.left);
+            }
+            if (node_o.right != null) {
+                queue_o.offer(node_o.right);
+                queue_c.offer(node_c.right);
+            }
+        }
+        return null;
+    }
+}

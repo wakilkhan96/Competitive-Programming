@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool canWinNim(int n) {
+        return n%4;
+    }
+};
+
+
+
+
+Nim Games
+1 One Pile Nim Games
+Consider the following two-person game.
+• There are initially n stones on the table.
+• During a move a player can remove either one, two, or three stones.
+• If a player cannot move then he loses (this only happens when there
+are 0 stones on the table).
+Notation 1.1 We denote this game (1, 2, 3)-NIM.
+Before reading on, think about how you should play this game to win
+starting with a pile of, say, 21 stones.
+Strategy: It is clear that if there are only one, two, or three stones left
+(on your turn), you can win the game by taking all of them. If, however,
+there are exactly four stones you will lose, because no matter how many you
+take, you will leave one, two, or three and your opponent will win by taking
+the remainder. If there are five, six, or seven stones you can win by taking
+just enough to leave four stones. If there are eight stones you will again lose,
+because you must leave five, six, or seven. Etc.
+Here is the win/loss information for take one-two-or-three for up to 21
+stones.
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21
+L W W W L W W W L W W W L W W W L W W W L W
+In general, if there are a multiple of four stones you lose. Otherwise you win
+(by taking enough stones to leave a multiple of four for your opponent). So
+we see the pattern LWWW, which is repeated. Thus, 21 stones is a win: take
+one stone.

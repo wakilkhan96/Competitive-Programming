@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        if(nums.size()==0) return {-1, -1};
+        if(target<nums[0]) return {-1, -1};
+        if(target>nums[nums.size()-1]) return {-1, -1};
+        
+        int ll , rr;
+        int l, r, mid;
+        
+        l = -1, r = nums.size();
+        while(l+1<r) {
+            mid = (l+r)/2;
+            if(nums[mid] < target) l = mid;
+            else r = mid;
+        }
+        
+        ll = r;
+        
+        l = -1, r = nums.size();
+        while(l+1<r) {
+            mid = (l+r)/2;
+            if(nums[mid] > target) r = mid;
+            else l = mid;
+        }
+        
+        rr = l;
+        
+        if(nums[ll]!=target || nums[rr]!=target) return {-1, -1};
+        
+        return {ll, rr};
+        
+    }
+};
+
+
+Success
+Details 
+Runtime: 4 ms, faster than 96.34% of C++ online submissions for Find First and Last Position of Element in Sorted Array.
+Memory Usage: 13.6 MB, less than 65.22% of C++ online submissions for Find First and Last Position of Element in Sorted Array.
+

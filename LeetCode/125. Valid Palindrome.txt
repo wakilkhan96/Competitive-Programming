@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool isAlphaNumeric(char ch) {
+        if(ch>='A' && ch<='Z') return true;
+        if(ch>='a' && ch<='z') return true;
+        if(ch>='0' && ch<='9') return true;
+        return false;
+    }
+    bool areSame(char ch1, char ch2) {
+        if(ch1>='A' && ch1<='Z') ch1 += 32;
+        if(ch2>='A' && ch2<='Z') ch2 += 32;
+        if(ch1==ch2) return true;
+        return false;
+    }
+    bool isPalindrome(string s) {
+        int len = s.size();
+        for(int i=0, j=len-i-1; i<j; ) {
+            if(!isAlphaNumeric(s[i])) i++;
+            else if(!isAlphaNumeric(s[j])) j--;
+            else {
+                if(!areSame(s[i++], s[j--])) return false;
+            }
+        }
+                    
+        return true;
+    }
+};
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Valid Palindrome.
+Memory Usage: 7.4 MB, less than 52.58% of C++ online submissions for Valid Palindrome.

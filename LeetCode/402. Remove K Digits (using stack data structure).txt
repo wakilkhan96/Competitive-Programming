@@ -1,0 +1,77 @@
+class Solution {
+public:
+    string reverse(string str) {
+        int size = str.size();
+        int l = 0, r = size-1;
+        while(l<r) {
+            swap(str[l], str[r]);
+            l++, r--;
+        }
+        return str;
+    }
+    string removeKdigits(string num, int k) {
+        int len = num.size();
+        
+        stack<char> st;
+        
+        //lets assume we have local maximas, and also have minimas next to maximas 
+        st.push(num[0]);
+        for(int i=1; i<len; i++) {
+            
+            while(!st.empty() && st.top()>num[i] && k-->0) st.pop();  // when local maxima is detected, we are removing it
+            
+            // if stack "st" is empty and current digit is '0', we will not push it cause it will be leading zero, so no need to push it 
+            if(st.empty() && num[i]=='0') continue;
+            else st.push(num[i]);
+            
+        }
+        
+        // lets assume we could not find total local maximas equal to k/ or we could find no maxima as disgits are arranged in ascending order
+        // so when k is left, we will remove digits from right side to make "num" smaller
+        while(!st.empty() && k-->0) st.pop(); // popping least significant digits
+        
+        // storing characters to a string
+        string str;
+        while(!st.empty()) {
+            str.push_back(st.top());
+            st.pop();
+        }
+        
+        // return str;
+        if(str=="") return "0";
+        return reverse(str);
+        
+    }
+};
+
+
+
+/*
+ best solution without stack gives 0ms, using string, but like stack property
+
+class Solution {
+public:
+    string removeKdigits(string num, int k) {
+        string ans="";
+        
+        for(auto it:num){
+            while(ans.size()!=0 and ans.back()>it and k!=0){
+                ans.pop_back();
+                k--;
+            }
+            
+            if(ans.size()!=0 or it!='0'){
+                ans.push_back(it);
+            }
+        }
+        
+        while(ans.length()!=0 and k--){
+            ans.pop_back();
+        }
+        
+        return ans.empty()?"0":ans;
+    }
+};
+
+
+*/

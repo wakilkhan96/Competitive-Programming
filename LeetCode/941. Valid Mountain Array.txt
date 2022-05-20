@@ -1,0 +1,59 @@
+class Solution {
+public:
+    bool validMountainArray(vector<int>& arr) {
+        if(arr.size()<3) return false;
+        
+        if(arr[0] > arr[1]) return false;
+        int i=1;
+        // checking strictly increasing
+        while(i<arr.size() && arr[i] > arr[i-1]) i++;
+        if(i==arr.size()) return false; // if i reaches array size before checking strictly decreasing
+        
+        // checking strictly decreasing
+        while(i<arr.size() && arr[i-1] > arr[i]) i++;
+        
+        if(i==arr.size()) return true;
+        return false;
+    }
+};
+
+
+
+
+Solution
+Approach 1: One Pass
+Intuition
+
+If we walk along the mountain from left to right, we have to move strictly up, then strictly down.
+
+Algorithm
+
+Let's walk up from left to right until we can't: that has to be the peak. We should ensure the peak is not the first or last element. Then, we walk down. If we reach the end, the array is valid, otherwise its not.
+
+
+Complexity Analysis
+
+Time Complexity: O(N)O(N), where NN is the length of A.
+
+Space Complexity: O(1)O(1).
+
+class Solution {
+    public boolean validMountainArray(int[] A) {
+        int N = A.length;
+        int i = 0;
+
+        // walk up
+        while (i+1 < N && A[i] < A[i+1])
+            i++;
+
+        // peak can't be first or last
+        if (i == 0 || i == N-1)
+            return false;
+
+        // walk down
+        while (i+1 < N && A[i] > A[i+1])
+            i++;
+
+        return i == N-1;
+    }
+}

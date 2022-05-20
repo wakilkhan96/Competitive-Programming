@@ -1,0 +1,69 @@
+class cmp{
+public:
+    vector<int> v;
+    cmp(vector<int> _v){ v = _v; }
+    bool operator()(int a, int b) const {
+        if(v[a]==v[b]) return a < b;
+        return v[a] < v[b];
+    }
+};
+
+class Solution {
+public:
+    vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
+        vector<int> rows, soldiers;
+        for(int i=0; i<mat.size(); i++) rows.push_back(i), soldiers.push_back(0);
+        for(int i=0; i<mat.size(); i++) {
+            for(int j=0; j<mat[i].size(); j++) soldiers[i] += (mat[i][j]? 1 : 0);
+        }
+        
+        sort(rows.begin(), rows.end(), cmp(soldiers));
+        
+        vector<int> res(rows.begin(), rows.begin()+k); 
+        return res;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
+public:
+    vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
+        // row<row_num, soldiers>
+        // std::ordered_map<int, int> rows;
+        vector<int> result;
+
+        auto cmp = [](pair<int, int> &left, pair<int, int> &right) {
+            return ((left.second) > (right.second) ||
+                    ((left.second == right.second) && 
+                     (left.first > right.first)));
+        };
+        std::priority_queue<pair<int, int>, vector<pair<int, int>>,
+                            decltype(cmp)> pq(cmp);
+        
+        for (int i = 0; i < mat.size(); ++i) {
+            int num_soldiers = 0;
+            for (int j = 0; j < mat[0].size(); ++j) {
+               num_soldiers += mat[i][j];
+            }
+            //ordered_map.insert(make_pair(i, num_soldiers));
+            pq.push(make_pair(i, num_soldiers));
+        }
+        
+        for (int i = 0; i < k; ++i) {
+            result.emplace_back(pq.top().first);
+            pq.pop();
+        }
+        return result;
+    }
+};

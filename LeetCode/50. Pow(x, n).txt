@@ -1,0 +1,45 @@
+class Solution {
+public:
+    double binaryPower(double x, long long n) {
+        double result = 1.00;
+        while(n>0) {
+            if(n&1) {
+                result *= x;
+                n--;
+            }
+            else {
+                x = x*x;
+                n /= 2;
+            }
+        }
+        return result;
+    }
+    double myPow(double x, int n) {
+        
+        double result = binaryPower(abs(x), abs(n));
+        
+        if(x>=0) {
+            if(n>=0) return result;
+            else return 1.00/result;
+        }
+        else {
+            if(n>=0) {
+                if(n&1) return -result;
+                else return result;
+            }
+            else {
+                if(n&1) return -(1/result);
+                else return 1.00/result;
+            }
+        }
+        
+        return 0;
+    }
+};
+
+
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Pow(x, n).
+Memory Usage: 5.9 MB, less than 44.03% of C++ online submissions for Pow(x, n).

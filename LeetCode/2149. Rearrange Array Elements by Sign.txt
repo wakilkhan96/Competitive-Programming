@@ -1,0 +1,65 @@
+class Solution {
+public:
+    vector<int> rearrangeArray(vector<int>& nums) {
+        vector<int> vec(nums.begin(),nums.end());
+        int even=0,odd=1;
+        for(int i=0;i<nums.size();i++)
+        {
+          if(nums[i]>0)
+          {
+              vec[even]=nums[i];
+              even=even+2;
+          }
+            else
+            {
+                vec[odd]=nums[i];
+                odd=odd+2;
+            }
+        }
+        
+        return vec;
+    }
+};
+
+
+
+
+
+class Solution {
+public:
+    vector<int> rearrangeArray(vector<int>& nums) {
+        
+        // solution 1
+        vector<int> positive, negative;
+        for(int i=0; i<nums.size(); i++) {
+            if(nums[i]>0) positive.push_back(nums[i]);
+            else negative.push_back(nums[i]);
+        }
+        
+        for(int i=0; i<nums.size()/2; i++) {
+            nums[2*i+0] = positive[i];
+            nums[2*i+1] = negative[i];
+        }
+        
+        return nums;
+        
+        
+        
+        
+        // solution 2
+        // vector<int> ans(nums.size(), 0), usedIndex(nums.size(), 0);
+        // int i = 0, j = 0, k = 0;  // lets assume i-th and j-th index hold positive and neagative value respectively
+        // while(true) {
+        //     while(usedIndex[i] || nums[i]<0) i++;
+        //     while(usedIndex[j] || nums[j]>0) j++;
+        //     // cout<<i<<" - "<<j<<endl;
+        //     ans[k++] = nums[i];
+        //     ans[k++] = nums[j];
+        //     if(k>=nums.size()) break;
+        //     usedIndex[i] = usedIndex[j] = 1;
+        // }
+        
+        // return ans;
+    }
+};
+

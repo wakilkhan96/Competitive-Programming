@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<int> findingUsersActiveMinutes(vector<vector<int>>& logs, int k) {
+        unordered_map<int, set<int>> mp;
+        for(int i=0; i<logs.size(); i++) {
+            mp[logs[i][0]].insert(logs[i][1]);
+        }
+        vector<int> ans(k, 0);
+        for(auto it=mp.begin(); it!=mp.end(); it++) {
+            ans[it->second.size()-1]++;
+        }
+        
+        return ans;
+    }
+};
+
+
+// best time solution
+class Solution {
+public:
+    vector<int> findingUsersActiveMinutes(vector<vector<int>>& logs, int k) {
+        ios::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+        int n = logs.size();
+        vector<int> vec(k, 0);
+        
+        unordered_map<int,set<int>> ht;
+        
+        for (int i = 0; i < n; ++i) {
+            ht[logs[i][0]].insert(logs[i][1]);
+        }
+        
+        for (auto& p: ht) {
+            vec[p.second.size()-1]++;
+        }
+        
+        return vec;
+    }
+};
+

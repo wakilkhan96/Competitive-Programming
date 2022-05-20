@@ -1,0 +1,17 @@
+class Solution {
+public:
+    string convertToTitle(int columnNumber) {
+        string str = "";
+        int n = columnNumber;
+        while(n) {
+            n--;
+            int ans = n%26;
+            // cout<<ans<<endl;
+            str.push_back('A'+ans);
+            n = n/26;
+        }
+        reverse(str.begin(), str.end());
+        return str;
+    }
+    
+};

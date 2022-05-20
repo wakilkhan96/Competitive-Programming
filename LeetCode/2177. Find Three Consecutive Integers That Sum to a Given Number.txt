@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<long long> sumOfThree(long long num) {
+        if(num%3 != 0) return {};
+        
+        long long mid = num/3;
+        return {mid-1, mid, mid+1};
+        
+    }
+};
+
+/*
+
+class Solution {
+public:
+    vector<long long> sumOfThree(long long num) {
+        long long l=-1, r=num+1, mid;
+        while(l+1<r) {
+            mid = (l+r)/2;
+            if(3*mid>num) r = mid;
+            else if(3*mid<num) l = mid;
+            // else break;
+            else return {mid-1, mid, mid+1};
+        }
+        
+        // cout<<mid<<endl;
+        // if(3*mid==num) return {mid-1, mid, mid+1};
+        return {};
+    }
+};
+
+*/
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Find Three Consecutive Integers That Sum to a Given Number.
+Memory Usage: 5.9 MB, less than 100.00% of C++ online submissions for Find Three Consecutive Integers That Sum to a Given Number.

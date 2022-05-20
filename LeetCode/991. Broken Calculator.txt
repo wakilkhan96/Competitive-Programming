@@ -1,0 +1,113 @@
+class Solution {
+public:
+    int brokenCalc(int startValue, int target) {
+        int cou = 0;
+        
+        // If target value is odd , we will make it even by adding one to it.
+        // If target is even we will divide by 2;
+        
+        int current = target;
+        while(current>startValue) {
+            if(current%2 == 1) current++;
+            else current /= 2;
+            cou++;
+        }
+        
+        return cou + (startValue-current);   
+		// if current is now less than startValue we have to add total (startValue-current)  numbers of ones, 
+		// so startValue-current) operations, so we are adding "(startValue-current)" with "cou"
+    }
+};
+
+
+Solution
+Approach 1: Work Backwards
+Intuition
+
+Instead of multiplying by 2 or subtracting 1 from startValue, 
+we could divide by 2 (when target is even) or add 1 to target(when target is odd).
+
+****************** But where did the the odd/even idea come from? 
+Answer is simple. During forward operations, we multiply 2 with non fractional number
+, which results a even number, if we multiply any number with 2, result is always even
+
+Example 3:
+
+Input: startValue = 3, target = 10
+Output: 3
+Explanation: Use double, decrement and double {3 -> 6 -> 5 -> 10}.
+												 *2	  -1   *2	<- operations
+												 
+Thats why,  for backward process,
+
+			If target value is odd , we will make it even by adding one to it.
+			If target is even we will divide by 2;
+
+
+
+
+
+
+https://leetcode.com/problems/broken-calculator/discuss/1874813/JavaC%2B%2B-Recursive-and-Iterative-Solution
+
+https://leetcode.com/problems/broken-calculator/discuss/1874839/C%2B%2B-oror-2-Approaches-oror-Easy-oror-Simple-and-Short-oror-Algorithm
+
+ALGORITHM
+
+The idea is to bring target equal to startvalue & counting the number of operations.
+We will do opposite insitead of turning startvalue to target.
+we are turning target to startvalue by 2 steps.
+if target value is odd , we will make it even by adding one to it.
+If target is even we will divide by 2;
+and doing these 2 operations we will count min operations till targetvalue is greater than startvalue.
+ANALYSIS:-
+
+TIME CONPLEXITY :- O(logn)
+
+SPACE COMPLEXITY :- O(1)
+
+ITERATIVE APPROACH
+
+		// 😉😉😉😉Please upvote if it helps 😉😉😉😉
+class Solution {
+public:
+    int brokenCalc(int startValue, int target) {
+        
+		// res for counting number of operation
+        int res = 0;
+        
+        while(target > startValue)
+        {
+			// if target is odd we will make it even
+            if(target % 2)
+                ++target;
+			// if target is even divide by 2
+            else
+                target /= 2;
+            
+            ++res;
+        }
+        return res  + startValue - target;
+    }
+	// for github repository link go to my profile.
+};
+
+RECURSIVE APPROACH
+				// 😉😉😉😉Please upvote if it helps 😉😉😉😉
+class Solution {
+public:
+    int brokenCalc(int startValue, int target) {
+        if(startValue >= target)
+            return startValue - target;
+        
+        if(target & 1)// if odd
+            return 1 + brokenCalc(startValue, target  + 1);
+        
+        // if even
+        return 1 + brokenCalc(startValue, target / 2);
+    }
+	// for github repository link go to my profile.
+};
+
+
+

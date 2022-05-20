@@ -1,0 +1,70 @@
+// using vector 
+
+// iterative solution, using vector 
+class Solution {
+public:
+    int findTheWinner(int n, int k) {
+        
+        vector<int> v;
+        for(int i=1; i<=n; i++) v.push_back(i);
+        
+        int i = 0;
+        while(v.size()>1) {
+            i = (i+k-1)%v.size();
+            v.erase(v.begin()+i);
+        }
+        
+        return v[0];
+    }
+};
+
+// recursive solution, using vector 
+class Solution {
+public:
+    
+    void findWinner(vector<int>& v, int i, int k) {
+        if(v.size()==1) return;
+        i = (i+k-1)%v.size();
+        v.erase(v.begin()+i);
+        findWinner(v, i, k);
+    }
+    int findTheWinner(int n, int k) {
+        
+        vector<int> v;
+        for(int i=1; i<=n; i++) v.push_back(i);
+        
+        findWinner(v, 0, k);
+        
+        return v[0];
+    }
+};
+
+
+
+
+
+
+// using queue
+
+class Solution {
+public:
+    int findTheWinner(int n, int k) {
+        
+        queue<int> q;
+        for(int i=1; i<=n; i++) q.push(i);
+        
+        while(q.size()>1) {
+            for(int i=0; i<k-1; i++) {
+                int front = q.front();
+                q.pop();
+                q.push(front);
+            }
+            q.pop();
+        }
+        
+        return q.front();
+    }
+};
+
+
+

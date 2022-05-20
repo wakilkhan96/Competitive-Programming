@@ -1,0 +1,283 @@
+class Solution {
+public:
+    void merge(int l, int mid, int r, vector<int>& nums) {
+        if(l>=r) return;
+        int l1 = l, r1 = mid;
+        int l2 = mid+1, r2 = r;
+        
+        vector<int> temp;
+        
+        while(l1<=r1 || l2<=r2) {
+            if(l1<=r1 && l2<=r2) {
+                if(nums[l1]<=nums[l2]) temp.push_back(nums[l1++]);
+                else temp.push_back(nums[l2++]);
+            }
+            else if(l1<=r1) temp.push_back(nums[l1++]);
+            else if(l2<=r2) temp.push_back(nums[l2++]);
+        }
+        
+        for(int i=l, k=0; i<=r; i++) nums[i] = temp[k++];
+    }
+    
+    void mergeSort(int l, int r, vector<int>& nums) {
+        if(l>=r) return;
+        
+        int mid = l+(r-l)/2;
+        mergeSort(l, mid, nums);
+        mergeSort(mid+1, r, nums);
+        merge(l, mid, r, nums);
+    }
+    
+    vector<int> sortArray(vector<int>& nums) {
+        mergeSort(0, nums.size()-1, nums);
+        return nums;
+    }
+};
+
+
+
+vector<int> bubbleSort(vector<int>& nums) {
+	bool sorted = false;
+	int swap_index = static_cast<int>(nums.size());
+	while(!sorted) {
+		sorted = true;
+		int last_swap_index = swap_index;
+		for (int i = 1; i < swap_index; i++) {
+			if (nums[i-1] > nums[i]) {
+				swap(nums[i-1], nums[i]);
+				sorted = false;
+				last_swap_index = i;
+			}
+		}
+		swap_index = last_swap_index;
+	}
+	return nums;
+}
+
+vector<int> selectSort(vector<int>& nums) {
+	for (int i = 0; i < nums.size(); i++) {
+		int min = i;
+		for (int j = i; j < nums.size(); j++) {
+			if (nums[j] < nums[min])
+				min = j;
+		}
+		swap(nums[i], nums[min]);
+	}
+	return nums;
+}
+
+vector<int> insertSort(vector<int>& nums) {
+	for (int i = 1; i < nums.size(); i++) {
+		int  j = i - 1;
+		int target = nums[i];
+		while(j >= 0 && nums[j] > target) {
+			nums[j + 1] = nums[j];
+			j--;
+		}
+		nums[j+1] = target;
+	}
+	return nums;
+}
+
+vector<int> shellSort(vector<int>& nums) {
+	 //9*4^i-9*2^i+1 或者是 4^i-3*2^i+1这两个算式。
+	 //Sedgewick 提出的(1, 5, 19, 41, 109,...)
+//         for (int gap = nums.size()/2; gap > 0; gap/=2) {
+//             for (int i = gap; i < nums.size(); ++i){
+//                 for (int j = i; j - gap >= 0 && nums[j-gap] > nums[j]; j -= gap) {
+//                     swap(nums[j-gap], nums[j]);
+//                 }
+//             }
+//         }
+	 for (int gap = nums.size()/2; gap > 0; gap/=2) {
+		 for (int i = gap; i < nums.size(); ++i){
+			 int j = i - gap;
+			 int target = nums[i];
+			 while(j >= 0 && nums[j] >target) {
+				 nums[j + gap] = nums[j];
+				 j = j - gap;
+			 }
+			 nums[j + gap] = target;
+		 }
+	 }
+	 return nums;
+}
+
+int partition(vector<int> &nums, int begin, int end) {
+	int random_key = rand() % (end - begin + 1);
+	int pivot = nums[random_key + begin];
+	swap(nums[random_key + begin], nums[begin]);
+	while(begin < end) {
+		while(begin < end && pivot <= nums[end]) {
+			end--;
+		}
+		nums[begin] = nums[end];
+		while(begin < end && pivot >= nums[begin]) {
+			begin++;
+		}
+		nums[end] = nums[begin];
+	}
+	nums[begin] = pivot;
+	return begin;
+}
+
+void quickSortInner(vector<int>& nums, int left, int right) {
+	if (left < right) {
+		int index = partition(nums, left, right);
+		quickSortInner(nums, left, index-1);
+		quickSortInner(nums, index+1, right);
+	}
+}
+
+vector<int> recQuickSort(vector<int> &nums) {
+	quickSortInner(nums, 0, nums.size()-1);
+	return nums;
+}
+
+vector<int> noneRecQuickSort(vector<int> &nums) {
+	std::stack<int> st;
+	int begin = 0, end = nums.size() - 1;
+	if (begin < end) {
+		st.push(end);
+		st.push(begin);
+		while(!st.empty()) {
+			int l = st.top(); st.pop();
+			int r = st.top(); st.pop();
+			int index = partition(nums, l, r);
+			if (l < index - 1) {
+				st.push(index-1);
+				st.push(l);
+			}
+			if (r > index + 1) {
+				st.push(r);
+				st.push(index+1);
+			}
+		}
+	}
+	return nums;
+}
+
+void buildHeap(vector<int>& nums) {
+	for (int i = 1; i <nums.size(); i++) {
+		int parent = 0;
+		int index = i;
+		while(index != 0) {
+			parent = (index - 1)/2;
+			if (nums[parent] < nums[index]) {
+				swap(nums[parent], nums[index]);
+			}
+			index = parent;
+		}
+	}
+}
+
+void adjust(vector<int>& nums, int index, int size) {
+	int left = index * 2 + 1;
+	int right = index * 2 + 2;
+	int max = index;
+	while(left < size) {
+		if (nums[left] > nums[max]) {
+			max = left;
+		}
+		if (right < size && nums[right] > nums[max]) {
+			max = right;
+		}
+		if (max != index) {
+			swap(nums[max], nums[index]);
+		} else {
+			break;
+		}
+		index = max;
+		left = index * 2 + 1;
+		right = index * 2 + 2;
+	}
+}
+
+vector<int> heapSort(vector<int>& nums) {
+	buildHeap(nums);
+	int size = nums.size();
+	while(size > 0) {
+		swap(nums[0], nums[size - 1]);
+		adjust(nums, 0, size - 1);
+		size--;
+	}
+	return nums;
+}
+
+vector<int> bucketSort(vector<int>& nums) {
+	if (nums.empty()) {
+		return nums;
+	}
+	int low = INT_MAX;
+	int high = INT_MIN;
+	for (int & num : nums) {
+		low = min(low, num);
+		high = max(high, num);
+	}
+	int n = high - low + 1;
+	vector<int> buckets(n, 0);
+	for(auto &num : nums) {
+		buckets[num - low]++;
+	}
+	int index = 0;
+	for(int i = 0; i < n; i++) {
+		for (int j = 0; j <buckets[i]; j++) {
+			nums[index++] = low + i;
+		}
+	}
+	return nums;
+}
+
+
+vector<int> mySort(vector<int>& nums) {
+	//count sort
+	int n=nums.size();
+	int maxi=INT_MIN;
+	for(int it: nums)
+		maxi=max(abs(it),maxi);
+	//make arry for hashing
+	int index=maxi*2+1;
+	vector<int>A(index,0);
+	int j,i;
+	for(i=0;i<n;i++){
+		if(nums[i]<0){
+			j=abs(nums[i])+maxi;
+			A[j]++;
+		}
+		else
+			A[nums[i]]++;
+	}
+	vector<int>res;
+	int p;
+	for(i=index-1;i>maxi;){
+		if(A[i]!=0){
+			p=i-maxi;
+			res.push_back(-p);
+			A[i]--;
+		}
+		else
+			i--;
+	}
+	for(i=0;i<=maxi;){
+		if(A[i]!=0){
+			res.push_back(i);
+			A[i]--;
+		}
+		else
+			i++;
+
+	}
+	return res;
+ }
+
+vector<int> sortArray(vector<int>& nums) {
+//        return bubbleSort(nums);
+//        return selectSort(nums);
+//        return insertSort(nums);
+//        return shellSort(nums);
+//        return recQuickSort(nums);
+//        return noneRecQuickSort(nums);
+//        return heapSort(nums);
+	return bucketSort(nums);
+//        return mySort(nums);
+ }

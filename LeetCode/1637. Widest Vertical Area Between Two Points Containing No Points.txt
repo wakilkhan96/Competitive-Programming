@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int maxWidthOfVerticalArea(vector<vector<int>>& points) {
+        vector<int> v;
+        for(int i=0; i<points.size(); i++) v.push_back(points[i][0]);
+        sort(v.begin(), v.end());
+
+        int current = -1, previous = -1, diff = 0, maxi = 0;
+        for(int i=0; i<v.size(); i++) { 
+            previous = current;
+            current = v[i];
+            if(previous == -1) continue;
+            diff = current-previous;
+            maxi = max(maxi, diff);
+        }
+        return maxi;
+    }
+};
+
+
+/*
+
+class Solution {
+public:
+    int maxWidthOfVerticalArea(vector<vector<int>>& points) {
+        map<int, int> mp;
+        for(int i=0; i<points.size(); i++) {
+            mp[points[i][0]]++;
+        }
+        
+        int current = -1, previous = -1, diff = 0, maxi;
+        for(auto it=mp.begin(); it!=mp.end(); it++) {
+            previous = current;
+            current = it->first;
+            if(previous == -1) continue;
+            diff = current-previous;
+            maxi = max(maxi, diff);
+        }
+        return maxi;
+    }
+};
+
+*/

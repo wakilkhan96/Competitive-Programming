@@ -1,0 +1,112 @@
+/* solution 1 */
+
+class Solution {
+public:
+    vector<string> results;
+    vector<int> _results;
+    string str;
+    void findIpAddress(int depth, int index, string current,  string& s) {
+        // IP address can't have more than 4 fields
+        if(depth==4 && index==s.size()) {
+            current.pop_back();
+            results.push_back(current);
+            return;
+        }
+        if(depth>=4 || index>=s.size() ) return;
+        
+        // here we will try to gnenerate a field value of different length
+        for(int len=1; len<=3; len++) {
+            if(s[index]=='0' && len>1) return;  // a field value that is not zero but will have leading zero
+            
+            int fieldValue = 0;
+            string temp = "";
+            for(int i=0; i<len && index+i<s.size(); i++) {
+                fieldValue = fieldValue*10+(s[index+i]-'0');
+                temp.push_back(s[index+i]);
+            }
+
+            // if field value is valid then calling function 
+            if(fieldValue<=255) findIpAddress(depth+1, index+len, current+temp+".",  s);  
+            else return;
+            
+        }
+        
+    }
+    vector<string> restoreIpAddresses(string s) {
+        if(s.size()<4 || s.size()>12) return {};
+        
+        findIpAddress(0, 0, "", s);
+        return results;
+    }
+};
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Restore IP Addresses.
+Memory Usage: 6.7 MB, less than 42.44% of C++ online submissions for Restore IP Addresses.
+
+
+
+
+
+
+/* solution 2 */
+
+class Solution {
+public:
+    string intToString(int n) {
+        string temp ="";
+        if(n==0) temp = '0';
+        while(n) { 
+            temp.push_back('0'+ (n%10));
+            n /= 10;
+        }
+        reverse(temp.begin(), temp.end());
+        return temp;
+    }
+
+    vector<string> results;
+    vector<int> _results;
+    string str;
+    void findIpAddress(int index, int depth, string& s) {
+        // IP address can't have more than 4 fields
+        if(depth==4 && index==s.size()) {
+            str = "";
+            // cout<<_results[0]<<'.'<<_results[1]<<'.'<<_results[2]<<'.'<<_results[3]<<endl;
+            for(int j=0; j<4; j++) {
+                if(j>0) str.push_back('.');
+                str += intToString(_results[j]);
+            }
+            results.push_back(str);
+            return;
+        }
+        if(depth>=4 || index>=s.size() ) return;
+        
+        // here we will try to gnenerate a field value of different length
+        for(int len=1; len<=3; len++) {
+            if(s[index]=='0' && len>1) return;  // a field value that is not zero but will have leading zero
+            int fieldValue = 0;
+            for(int i=0; i<len && index+i<s.size(); i++) fieldValue = fieldValue*10+(s[index+i]-'0');
+
+            if(fieldValue<=255) _results.push_back(fieldValue); //if valid field value then store it
+            else return;
+            
+            findIpAddress(index+len, depth+1, s);   // call function
+            
+            _results.pop_back();   // back track
+        }
+        
+    }
+    vector<string> restoreIpAddresses(string s) {
+        if(s.size()<4 || s.size()>12) return {};
+        
+        findIpAddress(0, 0, s);
+        return results;
+    }
+};
+
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Restore IP Addresses.
+Memory Usage: 6.6 MB, less than 69.36% of C++ online submissions for Restore IP Addresses.

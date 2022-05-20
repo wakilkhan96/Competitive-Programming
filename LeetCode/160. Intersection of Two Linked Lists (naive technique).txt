@@ -1,0 +1,46 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode* intersectionNode = nullptr;
+        ListNode* current = nullptr;
+        
+        current = headA;
+        while(current) {
+	    // making them negative for detection
+            current->val = -current->val;
+            current = current->next;
+        }
+        
+        current = headB;
+        while(current) {
+            if(current->val < 0) {
+                intersectionNode = current;
+                break;
+            }
+            current = current->next;
+        }
+        
+        current = headA;
+        while(current) {
+	    // undoing the negation
+            current->val = -current->val;
+            current = current->next;
+        }
+        
+        if(intersectionNode) return intersectionNode;
+        return nullptr;
+    }
+};
+
+Success
+Details 
+Runtime: 33 ms, faster than 98.41% of C++ online submissions for Intersection of Two Linked Lists.
+Memory Usage: 14.7 MB, less than 31.59% of C++ online submissions for Intersection of Two Linked Lists.

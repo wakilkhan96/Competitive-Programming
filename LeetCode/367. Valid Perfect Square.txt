@@ -1,0 +1,17 @@
+class Solution {
+public:
+    bool isPerfectSquare(int num) {
+        if(num==1) return true;
+        int l=0, r=num, mid;
+        long long sqr;
+        while(l+1<r) {
+            mid = l+(r-l)/2;
+            sqr = (long long)mid*mid;
+            if(sqr==num) return true;
+            else if(sqr>num) r = mid;
+            else l = mid;
+        }
+        // cout<<mid<<endl;
+        return false;
+    }
+};

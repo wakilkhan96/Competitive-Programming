@@ -1,0 +1,39 @@
+//faster
+class Solution {
+public:
+    string getSmallestString(int n, int k) {
+      string res(n, 'a');
+        k -= n; 
+        int i = n - 1;
+        while (k > 0) {
+            int tmp = min(k, 25);
+            res[i] += tmp;
+            k -= tmp;
+            i--;
+        }
+        
+        return res;
+    }
+};
+
+
+
+
+// slower
+class Solution {
+public:
+    string getSmallestString(int n, int k) {
+        vector<int> v(n, 1);
+        k -= n;
+        
+        int i = n-1;
+        while(k>0) {
+            v[i--] += (k<25? k: 25);
+            k -= (k<25? k: 25);
+        }
+        
+        string str = ""; 
+        for(int i=0; i<n; i++) str.push_back('a'+v[i]-1);
+        return str;
+    }
+};

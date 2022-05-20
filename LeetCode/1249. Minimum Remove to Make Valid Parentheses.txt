@@ -1,0 +1,142 @@
+Three approaches->
+
+https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/discuss/1850237/C%2B%2B-oror-2-Appraches-oror-Explained-With-Algorithm-oror-Easy-and-Simple
+
+Approach 1:	O(N), 2 pass
+
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+        stack<int> st;
+        
+        // O(N) 1-st pass,
+        for(int i=0; i<s.size(); i++) {
+		
+            // incase of '(' pushing index 
+            if(s[i]=='(') st.push(i);
+            // incase of ')' check few conditions 
+			
+            else if(s[i]==')') {
+                // if stack is not empty then index value = st.top() contains '('  at s[st.top()], 
+                // so as we found a valid pair, so we will remove that index from top of the stack
+                if(!st.empty()) st.pop();
+                else s[i] = '#';
+                // but, if stack is empty then ')' at s[i] have no '(' before so, we will remove this and mark as '#'
+            }
+        }
+        
+        // incase of valid parentheses the stack will be empty, but if it is not empty then remaining indices at stack are not worthy,
+        // so we will remove this and mark as '#'
+        while(!st.empty()) {
+            s[st.top()] = '#';
+            st.pop();
+        }
+        
+        string res = "";
+        // O(N) 2-nd pass, building final string
+        for(int i=0; i<s.size(); i++) { 
+            if(s[i]!='#') res.push_back(s[i]);
+        }
+        return res;
+    }
+};
+
+
+
+
+
+
+
+Approach 2:	O(N), 2 pass
+
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+        
+        int count;
+        
+        count = 0;
+        for(int i=0; i<s.size(); i++) {
+            
+            // incase of '(' count opening braces
+            if(s[i]=='(') count++;
+            
+            // incase of ')' check few conditions 
+            else if(s[i]==')') {
+                // if count is not 0 then it is sure that previous indices contains '(' 
+                // so as we found a valid pair, so we will decrease count
+                if(count>0) count--;
+                else s[i] = '#';
+                // but, if count is 0 then ')' at s[i] have no '(' before so, we will remove this and mark as '#'
+            }
+        }
+        
+        
+        count = 0;
+        for(int i=s.size()-1; i>=0; i--) {
+            
+            // incase of ')' count closing braces
+            if(s[i]==')') count++;
+            
+            // incase of '(' check few conditions 
+            else if(s[i]=='(') {
+                // if count is not 0 then it is sure that previous indices from end of string contains ')' 
+                // so as we found a valid pair, so we will decrease count
+                if(count>0) count--;
+                else s[i] = '#';
+                // but, if count is 0 then '(' at s[i] have no ')' before so, we will remove this and mark as '#'
+            }
+        }
+        
+        
+        string res = "";
+        // O(N) 2-nd pass, building final string
+        for(int i=0; i<s.size(); i++) { 
+            if(s[i]!='#') res.push_back(s[i]);
+        }
+        return res;
+    }
+};
+
+
+
+
+
+
+
+Approach 3:	O(N*N), 2 pass
+
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+        vector<int> toTake(s.size(), 0); // to store which indices we will take inside final string
+        
+        // O(N*N) 1-st pass
+        for(int i=0, j=0; i<s.size(); i++) {
+            // in case of a-z take it
+            if( s[i]>='a' && s[i]<='z' ) toTake[i] = 1;  
+            else {
+                // in case of '(' find a valid ')' and take them both
+                if( s[i]=='(' ) {
+                    if(j<=i) j = i+1;
+                    
+                    while(j<s.size() && s[j]!=')') j++;
+                    // cout<<i<<"-"<<j<<endl;
+                    if(j<s.size()) {
+                        toTake[i] = 1;
+                        toTake[j] = 1;
+                    }
+                    j++;
+                }
+            }
+        }
+        
+        
+        string res = "";
+        // O(N) 2-nd pass, building final string
+        for(int i=0; i<s.size(); i++) { 
+            if(toTake[i]) res.push_back(s[i]);
+        }
+        return res;
+    }
+};

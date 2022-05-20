@@ -1,0 +1,65 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> neighbors;
+    Node() {
+        val = 0;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val) {
+        val = _val;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val, vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+*/
+
+class Solution {
+public:
+    Solution() {
+        visited_and_cloned.clear();
+    }
+    // "visited_and_cloned" map will store given graph node and it's clone Node pointer
+    // it will help us to find if any Node is visited or not and if visited, what is the clone of that node
+    unordered_map<Node*, Node*> visited_and_cloned;
+    
+    Node* treeTraverse(Node* node) {
+        
+        
+        Node* newNode = new Node(node->val);    // creating clone node
+        visited_and_cloned.insert({node, newNode}); // inserting current node and and it's clone node pointer 
+        
+        // traverse the chidrens of current node
+        for(int i=0; i<node->neighbors.size(); i++) {
+            // if a child is not visited then call "treeTraverse()" which will return pointer of (cloned node of child)
+            if(visited_and_cloned.find(node->neighbors[i])==visited_and_cloned.end()) {
+                // cout<<node->neighbors[i]->val<<endl;
+                Node* child = treeTraverse(node->neighbors[i]);
+                newNode->neighbors.push_back(child);
+            }
+            // if a child is visited then no need to traverse or call the function, 
+            // just push the cloned node pointer as there will be a edge that exists between cloned child and parent
+            else {
+                newNode->neighbors.push_back(visited_and_cloned[node->neighbors[i]]);
+            }
+        }
+        
+        return newNode;
+    }
+    Node* cloneGraph(Node* node) {
+        if(node==nullptr) return nullptr;
+        return treeTraverse(node);
+    }
+};
+
+
+
+Success
+Details 
+Runtime: 3 ms, faster than 97.31% of C++ online submissions for Clone Graph.
+Memory Usage: 9 MB, less than 23.69% of C++ online submissions for Clone Graph.

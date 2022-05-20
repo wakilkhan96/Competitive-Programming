@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int deviceCount(string str) {
+        for(int i=0, j=0; ; i++) {
+            if(str[i]=='\0') return j;
+            else if(str[i]=='1') j++;
+        } 
+    }
+    int numberOfBeams(vector<string>& bank) {
+        int previous = -1, current = -1, total = 0;
+        
+        previous = deviceCount(bank[0]);
+        for(int i=1; i<bank.size(); i++) {
+            current = deviceCount(bank[i]);
+            if(current <= 0) continue;
+            
+            // cout<<current<<" - "<<previous<<endl;
+            total += (previous*current);
+            previous = current;
+        }
+        
+        return total;
+    }
+};

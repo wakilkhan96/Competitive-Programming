@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int result = 0;
+        
+        for(int i=0; i<nums.size(); i++) result ^= nums[i];
+        return result;
+    }
+};
+
+
+Success
+Details 
+Runtime: 16 ms, faster than 91.43% of C++ online submissions for Single Number.
+Memory Usage: 16.9 MB, less than 50.78% of C++ online submissions for Single Number.
+
+
+XOR Property
+-------------
+for N in decimal base,
+0^N = N
+N^N = 0
+
+So, if XOR of a number is  performed even (two, four, six, eight, ten, etc.) times,  it becomes 0,
+but, if XOR of a number is  performed odd times it becomes N
+
+let, result = 0
+As, input section has clarified that,  every element appears twice except for one element.
+So, if we perform XOR for all elements of the array and store the result inside "result" variable, only unique element will be stored at "result".

@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int digitSquareSum(int n) {
+        int sum = 0, rem;
+        while(n) {
+            rem = n%10;
+            sum += rem*rem;
+            n /= 10;
+        }
+        return sum;
+    }
+    bool isHappy(int n) {
+        if(n==1) return true;
+        
+        unordered_map<int, int> mp;
+        while(mp.find(n)==mp.end()) {
+            mp[n]++;
+            n = digitSquareSum(n);
+            if(n==1) return true;
+        }
+        return false;
+    }
+};

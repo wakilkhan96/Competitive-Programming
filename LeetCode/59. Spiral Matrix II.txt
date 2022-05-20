@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool isValidIndex(int i, int j, vector<vector<int>>& grid) {
+        int n = grid.size();
+        if(i<0 || i>=n || j<0 || j>=n) return false;
+        if(grid[i][j]>-1) return false;
+        return true;
+    }
+    
+    vector<vector<int>> generateMatrix(int n) {
+        int val = 1;
+        vector<vector<int>> grid(n, vector<int>(n, -1));
+        
+        int dx[4] = {+0, +1, 0, -1};
+        int dy[4] = {+1, +0, -1, 0};
+        
+        int i, j, index;
+        i = 0, j = 0, index = 0;
+        while(true) {
+            grid[i][j] = val++;
+            
+            if(!isValidIndex(i+dx[index], j+dy[index], grid)) index = (index+1)%4;
+            // cout<<index<<" ";
+            
+            i += dx[index];
+            j += dy[index];
+            
+            if(val>n*n) break;
+        }
+        
+        return grid;
+    }
+};

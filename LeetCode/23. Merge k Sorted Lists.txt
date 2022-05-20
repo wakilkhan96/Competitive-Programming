@@ -1,0 +1,61 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        ListNode* head = new ListNode();
+        ListNode* current = head;
+        
+		int lists_size = lists.size();
+		// we will merge (i)-th linked list with (i+1)-th linked list
+		// and store head ListNode* of merged linked list at (i)-th index of "lists" vector
+        for(int i=lists_size-2; i>=0; i--) {
+            lists[i] = merge2Lists(lists[i], lists[i+1]);
+        }
+        
+        // return head->next;
+        if(lists_size<1) return nullptr;
+        return lists[0];
+        
+    }
+    
+    ListNode* merge2Lists(ListNode* p1, ListNode* p2)
+    {
+        ListNode* front = new ListNode();
+        ListNode* back = front;
+        
+        while(p1 && p2) {
+            
+            if(p1->val < p2->val) {
+                back->next = p1;
+                p1 = p1->next;
+            }
+            else {
+                back->next = p2;
+                p2 = p2->next;
+            }
+            
+            back = back->next;
+           
+        }
+        
+        // back->next = p1 ? p1 : p2;
+        back->next = ( p1==nullptr? p2 : p1 );
+        
+        return front->next;
+    }
+
+};
+
+Success
+Details 
+Runtime: 149 ms, faster than 27.71% of C++ online submissions for Merge k Sorted Lists.
+Memory Usage: 13.4 MB, less than 46.71% of C++ online submissions for Merge k Sorted Lists.

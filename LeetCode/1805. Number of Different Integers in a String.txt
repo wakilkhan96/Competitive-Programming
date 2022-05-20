@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int numDifferentIntegers(string word) {
+        unordered_map<string, int> mp;
+        
+        string number;
+        for(int i=0; i<word.size(); ) {
+            if(word[i]>='0' && word[i]<='9') {
+                number = "";
+                while(word[i]=='0') i++;
+                while(word[i]>='0' && word[i]<='9') number.push_back(word[i++]);
+                mp[number]++;
+            }
+            else i++;
+        }
+        
+        return mp.size();
+    }
+};

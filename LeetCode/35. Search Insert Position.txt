@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int find_upper_limit(vector<int>& nums, int target) {
+        int l=-1, r= nums.size(), mid;
+        
+        while(l<r) {
+            mid = (l+r)/2;
+            if(nums[mid] < target) l = mid+1;
+            else r = mid;
+        }
+        
+        return l;
+        
+    }
+    int searchInsert(vector<int>& nums, int target) {
+        if(target<=nums[0]) return 0;
+        else if(target>nums[nums.size()-1]) return nums.size();
+        return find_upper_limit(nums, target);
+    }
+};
+
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Search Insert Position.
+Memory Usage: 9.8 MB, less than 22.20% of C++ online submissions for Search Insert Position.

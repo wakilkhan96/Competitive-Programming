@@ -1,0 +1,42 @@
+
+// iterative solution
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> ways(100, vector<int>(100, 0));
+		// as robot only moves down and right,
+		// so, we can reach  ways[0][y] cells and ways[x][0] cells in only 1 way
+        
+		for(int y=0; y<n; y++) ways[0][y] = 1;
+        for(int x=0; x<m; x++) ways[x][0] = 1;
+        
+		// following cells can be visited from only top and left
+        for(int x=1; x<m; x++) { 
+            for(int y=1; y<n; y++) { 
+                ways[x][y] = ways[x-1][y] + ways[x][y-1];
+            }
+        }
+        
+        return ways[m-1][n-1];
+        
+    }
+};
+
+
+// recursive solution
+class Solution {
+public:
+    int findPaths(int x, int y, int m, int n, vector<vector<int>>& dp) {
+        if(x==m-1 && y==n-1) return 1;
+        if(x >= m || y >= n) return 0;
+        if(dp[x][y]!=-1) return dp[x][y];
+        
+        int way1 = findPaths(x+1, y, m, n, dp);
+        int way2 = findPaths(x, y+1, m, n, dp);
+        return dp[x][y] = way1+way2;
+    }
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> dp(100, vector<int>(100, -1));
+        return findPaths(0, 0, m, n, dp);
+    }
+};

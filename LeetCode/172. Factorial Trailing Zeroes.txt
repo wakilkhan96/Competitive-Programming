@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int trailingZeroes(int n) {
+        int currentFactor = 5, cou = 0;
+        while(n>=currentFactor) {
+            cou += n/currentFactor;
+            currentFactor *= 5;
+        }
+        return cou;
+    }
+};

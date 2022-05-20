@@ -1,0 +1,207 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> v;
+    int i=0;
+    void inorder(TreeNode* root){
+        if(!root) return;
+        inorder(root->left);
+        v.push_back(root->val);
+        inorder(root->right);
+    }
+    void check(TreeNode* root){
+        if(!root) return;
+        check(root->left);
+        if(v[i]!=root->val) swap(v[i],root->val);
+        i++;
+        check(root->right);
+    }
+    void recoverTree(TreeNode* root) {
+        inorder(root);
+        sort(v.begin(),v.end());
+        check(root);
+    }
+};
+
+
+
+
+
+https://leetcode.com/problems/recover-binary-search-tree/discuss/1962276/Clear-N-Easy-To-Understand-Code-()
+INORDER TRAVERSAL APPROACH
+
+class Solution {
+     // Creating three global pointers
+    TreeNode previous = null;
+    TreeNode first = null;
+    TreeNode second = null;
+    
+    public void recoverTree(TreeNode root) {
+        // Finding the two swapped nodes
+        solve(root);
+        
+        //Swaping the value of nodes
+        int temp = first.val;
+        first.val = second.val;
+        second.val = temp;
+    }
+     //New Function to find the two nodes
+    public void solve(TreeNode root){
+        
+        if(root == null){
+            return;
+        }
+        
+        //Doing inorder traversal i.e, sarting from left then right
+        solve(root.left);
+        
+        // If current node is smaller than previous, then previous node is invalid
+        if(previous != null && root.val < previous.val){
+            
+            //Storing previous node
+            if(first == null){
+                first = previous;
+            }
+            
+            //If both nodes are adjacent, save the current node in that case
+            second = root;
+            
+        }
+        
+        //Making current node as previous node
+        previous = root;
+        
+        //Moving to right sub-tree
+        solve(root.right);
+        
+    }
+}
+Time Complexity =O(N)
+Space Complexity = O(N)
+
+
+
+
+
+https://leetcode.com/problems/recover-binary-search-tree/discuss/1962583/C%2B%2B-or-2-approach-or-Brute-Force-and-Optimal
+1. Brute Force:
+taking a vector, insert value into it according inorder traversal. Then sort, now again traverse the tree (in-order) & check the difference.
+
+class Solution {
+public:
+    vector<int> v;
+    int i=0;
+    void inorder(TreeNode* root){
+        if(!root) return;
+        inorder(root->left);
+        v.push_back(root->val);
+        inorder(root->right);
+    }
+    void check(TreeNode* root){
+        if(!root) return;
+        check(root->left);
+        if(v[i]!=root->val) swap(v[i],root->val);
+        i++;
+        check(root->right);
+    }
+    void recoverTree(TreeNode* root) {
+        inorder(root);
+        sort(v.begin(),v.end());
+        check(root);
+    }
+};
+TC-> O(NlogN), SC-> O(N)+O(N) [1 for vector, 1 for recursion space]
+
+2. Optimal:
+
+class Solution {
+    TreeNode* first, *last, *prev;
+public:
+    void inorder(TreeNode* root){
+        if(root==NULL) return;
+        inorder(root->left);
+        if(prev!=NULL && (root->val<prev->val)){
+            if(first==NULL){
+                first=prev;
+                last=root; 
+            }
+            else
+                last=root;
+        }
+        prev=root;
+        inorder(root->right);
+    }
+    void recoverTree(TreeNode* root) {
+        first=last=prev=NULL;
+        inorder(root);
+        swap(first->val,last->val);
+    }
+};
+TC-> O(N), SC->O(N) [for recursion space]
+
+
+
+https://leetcode.com/problems/recover-binary-search-tree/discuss/1962281/C%2B%2B-oror-Easy-to-understand
+If u use inorder traveral, problem will be find 2 mistakes in acending array and swap them
+For example array: 1 2 3 4 5 6 7
+-> swap random two elments -> 1 2 6 4 5 3 7 (swap 3 and 6)
+-> Question is how can know 2 elements is 3 and 6?
+-> First: find the first number have index i satisfy arr[i - 1] > arr[i] => first mistake have index i - 1 (in the exam, first mistake is 6)
+-> Second: continue but don't change first mistake, if arr[i - 1] > arr[i] and u had found the first mistake => second mistake is i;
+in the example second mistake in the first time is 4 change to 3
+
+In the tree question, to keep compare, u need a variable is previous root.
+By @LemonHerbs :
+if we encounter a tree looking like this:
+
+   5
+  /   \
+6     8
+	 /
+	 4
+firstMistake will be assigned to 6, and in the same recursive call, secondMistake will be assigned to 5.
+Then in the next recursive call, firstMistake will NOT be changed since it is not a null pointer, while secondMistake will be
+updated to 4. Then in the following recursions the 2 mistake nodes remain unchanged.
+When inorder() returns to the main function recoverTree(), the 2 mistakes swap values and hence the correct BST.
+
+   5
+  /   \
+4     8
+	 /
+	 6
+Code:
+
+class Solution {
+public:
+	TreeNode* firstMistake, *secondMistake, *pre;
+	void recoverTree(TreeNode* root) {
+		pre = new TreeNode(INT_MIN);
+		inorder(root);
+		swap(firstMistake->val, secondMistake->val);
+	}
+
+	void inorder(TreeNode* root) {
+		if(root == nullptr) 
+			return;
+
+		inorder(root->left);
+
+		if(firstMistake == nullptr && root->val < pre->val)
+			firstMistake = pre;
+		if(firstMistake != nullptr && root->val < pre->val)
+			secondMistake = root;
+		pre = root;
+
+		inorder(root->right);
+	}
+};

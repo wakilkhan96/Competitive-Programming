@@ -1,0 +1,37 @@
+class Solution {
+public:
+    //this map is our database which stores key->val in this order
+    // tinyURL -> longURL
+    
+    map<string,string> database;
+    
+    string encode(string longUrl) {
+        
+        // base string which is common for all tinyURL
+        string urlBase = "https://tinyurl.com/";
+        
+        // declaring as static so that it does not conflicts with any other URL.
+        static int num = 0;
+        
+        string store = ""; // this will contain the new tinyURL
+        
+        store = urlBase+to_string(num);
+        
+        database[store] = longUrl; // storing the tinyURL in the database
+        
+        num++; // incrementing the num so that when a new URL is given, it will have a new URL.
+        
+        return store; // returning the new tinyURL
+    }
+    
+    
+    string decode(string shortUrl) {
+        // if the given short URL is valid returning the value of the shortURL.
+        return database[shortUrl];
+    }
+};
+
+
+// Your Solution object will be instantiated and called as such:
+// Solution solution;
+// solution.decode(solution.encode(url));

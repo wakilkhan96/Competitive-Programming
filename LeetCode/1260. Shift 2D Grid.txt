@@ -1,0 +1,41 @@
+class Solution {
+public:
+    void printGrid(vector<vector<int>>& grid) {
+        int r = grid.size(), c = grid[0].size();
+        for(int i=0; i<r; i++) {
+            for(int j=0; j<c; j++) {
+                cout<<grid[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+    }
+    vector<vector<int>> shiftGrid(vector<vector<int>>& grid, int k) {
+        int r = grid.size(), c = grid[0].size();
+        int dimension = r*c;
+        k %= dimension;
+        
+        // printGrid(grid);
+        // cout<<endl;
+        
+        // vector<vector<int>> ans(r, vector<int>(c, 0));
+        vector<vector<int>> ans = grid;
+        
+        // considering matrix as a flattened array
+        int i, j; 
+        i = k, j = 0;
+        while(k>0 && i<dimension) {
+            ans[i/c][i%c] = grid[j/c][j%c];
+            i++, j++;
+        }
+        i = 0;
+        while(k>0 && j<dimension) {
+            ans[i/c][i%c] = grid[j/c][j%c];
+            i++, j++;
+        }
+        
+        // printGrid(grid);
+        // cout<<endl;
+        
+        return ans;
+    }
+};

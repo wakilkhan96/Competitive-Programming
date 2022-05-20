@@ -1,0 +1,97 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        if(head==nullptr) return nullptr;
+        int length = 0;
+        ListNode* previous;
+        ListNode* current = head;
+        
+        while(current!=nullptr) {
+            length++, current = current->next;
+            if(current) length++, current = current->next;
+        }
+        
+        if(n==1 && length==1) return nullptr;
+        
+        previous = nullptr;
+        current = head;
+        
+        n = length-n; 
+        if(n==0) return current->next;
+        while(current!=nullptr && n--) previous = current, current = current->next;
+        // cout<<previous->val<<endl;
+        
+        if(current==nullptr) previous->next = nullptr;
+        else previous->next = current->next;
+        
+        return head;
+    }
+};
+
+
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Remove Nth Node From End of List.
+Memory Usage: 10.5 MB, less than 99.97% of C++ online submissions for Remove Nth Node From End of List.
+
+
+or, for long length linked list, below code works faster, as it chooses 0 to mid or mid to end, depending on n > length/2 or not
+
+
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        if(head==nullptr) return nullptr;
+        int length = 0;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast!=nullptr && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            length += 2;
+        }
+        if(fast!=nullptr) length++;
+        
+        n = length - n; // this nth node to delete is now from head of list
+        if(n==0) return head->next;
+        if(n==1 && length==1) return nullptr;
+
+        // cout<<length<<endl;
+        
+        
+        ListNode* previous;
+        ListNode* current = head;
+        
+        previous = nullptr;
+        if(n>length/2) current = slow, n -= (length/2); 
+        else current = head, n = n;
+    
+        while(current!=nullptr && n--) previous = current, current = current->next;
+        // cout<<previous->val<<endl;
+        
+        if(current==nullptr) previous->next = nullptr;
+        else previous->next = current->next;
+        
+        return head;
+    }
+};

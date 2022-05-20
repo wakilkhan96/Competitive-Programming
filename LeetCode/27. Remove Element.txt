@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int n = nums.size(), cou = 0;
+        for(int i=0, j=0; i<n; i++) {
+            if(nums[i]==val) cou++;
+            else nums[j++] = nums[i];
+        }
+        return n-cou;
+    }
+};
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Remove Element.
+Memory Usage: 8.8 MB, less than 35.46% of C++ online submissions for Remove Element.

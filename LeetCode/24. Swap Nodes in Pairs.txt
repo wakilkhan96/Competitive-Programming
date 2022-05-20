@@ -1,0 +1,83 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if(head==nullptr) return nullptr;
+        
+		// creating a dummy head here, as, to swap currentNode and nextNode we must need to have a previousNode
+        ListNode* newHead = new ListNode(0);
+        newHead->next = head;
+        head = newHead;
+        
+		
+		// so here, previousNode = head, which is our newly created dummy head
+        ListNode* previousNode = head;
+        ListNode* currentNode = head->next;
+        ListNode* nextNode = head->next->next;
+        
+		
+		// to swap currentNode and nextNode, they must not be nullptr
+        while(currentNode!=nullptr && nextNode!=nullptr) {
+            currentNode->next = nextNode->next;
+            previousNode->next = nextNode;
+            nextNode->next = currentNode;
+            
+            previousNode = currentNode;
+            currentNode = previousNode->next;
+            if(currentNode!=nullptr) nextNode = currentNode->next;
+        }
+        return head->next;
+    }
+};
+
+
+
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Swap Nodes in Pairs.
+Memory Usage: 7.7 MB, less than 7.38% of C++ online submissions for Swap Nodes in Pairs.
+
+
+// Technique
+/*
+lets assume, 
+	we have a input and output,
+		Input: head = [1,2,3,4]
+		Output:       [2,1,4,3]
+		
+	after creating dummy head,
+		Input: head = [0,1,2,3,4]
+	so,
+		previousNode = pointer_of( 0 );
+        currentNode =  pointer_of( 1 );
+        nextNode =     pointer_of( 2 );
+			
+	now, as "currentNode!=nullptr && nextNode!=nullptr" it will enter inside while loop,
+		while(currentNode!=nullptr && nextNode!=nullptr) {
+            currentNode->next = nextNode->next;		//   ( 1 )->next = pointer_of( 3 )
+            previousNode->next = nextNode;		    //   ( 0 )->next = pointer_of( 2 )
+            nextNode->next = currentNode;		    //   ( 2 )->next = pointer_of( 1 )
+            
+			
+			// so, now the linked list becomes,     head = [0,2,1,3,4]
+			// to swap next pair (3, 4), we need to set (1) as previousNode, (3) as currentNode and (4) as nextNode
+			// and we can see, (1) is already stored at currentNode, so set, previousNode = currentNode;
+			
+            previousNode = currentNode;
+            currentNode = previousNode->next;		//   currentNode value can also be nullptr
+            if(currentNode!=nullptr) nextNode = currentNode->next;
+			
+			// this process will be continued
+        }
+
+*/

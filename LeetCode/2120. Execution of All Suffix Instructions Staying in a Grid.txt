@@ -1,0 +1,82 @@
+/* dp */
+
+class Solution {
+public:
+    // this should be like hashtable, maybe DP concept
+    vector<int> executeInstructions(int n, vector<int>& startPos, string s) {
+        int m = s.length();
+        // Set the table size to m*n*2, and all points shift from (0,0) to (m+n, m+n),
+        // i.e. shift to the middle of the table,
+        // then don't need to consider row/col index boundary process
+        
+        // Two table are used for Rows and Columns respectively
+        // Table value is defined to the maximum step from 0th instruction
+        // the robot can walk, if we regards this Row and Column as boundary.
+        // So init value is set to maximum steps(instructions), which is m
+        vector<int> rowBoundSteps((m+n)*2, m);
+        vector<int> colBoundSteps((m+n)*2, m);
+        int curRow = m+n, curCol = m+n;
+        vector<int> ans(m);
+        for (int i=m-1; i>=0; --i) {
+            // curRow and curCol could become previous boundary after move.
+            // So if curRow and curCol is boundary, that means
+            // the maximum steps before this boundary is i
+            // rowBoundSteps[curRow] = i;
+            // colBoundSteps[curCol] = i;
+            
+            // Update curRow and curCol by instructions
+            // Reverse directions, since we process in the reverse order of instructions
+            // That means, to get the previous poisition of the instruction.
+            if (s[i]=='U') {rowBoundSteps[curRow] = i; curRow+=1;}
+            else if (s[i] == 'D') {rowBoundSteps[curRow] = i; curRow-=1;}
+            else if (s[i] == 'L') {colBoundSteps[curCol] = i; curCol+=1;}
+            else if (s[i] == 'R') {colBoundSteps[curCol] = i; curCol-=1;}
+            
+            // Get the min max-steps from the four boundaries.
+            // Minus i is because ans[i] means the maximum steps start from ith insturction,
+            // and boundary table's value are count form 0th instruction.
+            ans[i] = min({rowBoundSteps[curRow-startPos[0]-1],
+                          rowBoundSteps[curRow-startPos[0]+n],
+                          colBoundSteps[curCol-startPos[1]-1],
+                          colBoundSteps[curCol-startPos[1]+n]}) - i;
+        }
+        return ans;
+    }
+};
+
+
+
+
+
+// brute-force O(N^2)
+
+class Solution {
+public:
+    bool isValid(int n, int x, int y) {
+        return (x>=0 && x<n) && (y>=0 &&y<n);
+    }
+    vector<int> executeInstructions(int n, vector<int>& startPos, string s) {
+        vector<int> ans;
+        for(int j=0; j<s.size(); j++) {
+            
+            int posX = startPos[0], posY = startPos[1], cou = 0;
+            for(int i=j; i<s.size(); i++) {
+                switch(s[i]) {
+                    case 'U': posX--;
+                        break;
+                    case 'D': posX++; 
+                        break;
+                    case 'R': posY++;
+                        break;
+                    case 'L': posY--; 
+                        break;
+                }
+                if(!isValid(n, posX, posY)) break;
+                cou++;
+            }
+            ans.push_back(cou);
+        }
+        
+        return ans;
+    }
+};

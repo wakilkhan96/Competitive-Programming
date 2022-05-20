@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int toInt(string str) {
+        stringstream ss(str);
+        int x = 0;
+        ss >> x;
+        return x;
+    }
+    int calPoints(vector<string>& ops) {
+        vector<int> v(1010, 0);
+        int stTopIndex = -1;
+        for(int i=0; i<ops.size(); i++) {
+            if(ops[i]=="+") {
+                int temp = v[stTopIndex]+v[stTopIndex-1];
+                v[++stTopIndex] = temp;
+            }
+            else if(ops[i]=="D") {
+                int temp = v[stTopIndex]*2;
+                v[++stTopIndex] = temp;
+            }
+            else if(ops[i]=="C") {
+                stTopIndex--;
+            }
+            else {
+                int temp = toInt(ops[i]);
+                v[++stTopIndex] = temp;
+            }
+        }
+        
+        int sum = 0;
+        for(int i=stTopIndex; i>=0; i--) sum += v[i];
+        return sum;
+    }
+};
+
+
+
+
+
+
+
+
+Approach #1: Stack [Accepted]
+Intuition and Algorithm
+
+Let's maintain the value of each valid round on a stack as we process the data. A stack is ideal since we only deal with operations involving the last or second-last valid round.
+
+
+Complexity Analysis
+
+Time Complexity: O(N)O(N), where NN is the length of ops. We parse through every element in the given array once, and do O(1)O(1) work for each element.
+
+Space Complexity: O(N)O(N), the space used to store our stack.

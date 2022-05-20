@@ -1,0 +1,170 @@
+// Soln: Build the array arr using the given formula, define target = sum(arr) / n
+
+// faster
+class Solution {
+public:
+    int minOperations(int n) {
+        int target = n;  // target  will always be n
+        
+        int operations = 0;
+        for(int i=0; i<n; i++) {
+            int arrayElement = 2*i+1;
+            operations += abs(target-arrayElement);
+        }
+        
+        return operations/2;
+    }
+};
+
+
+// slower
+class Solution {
+public:
+    int minOperations(int n) {
+        vector<int> arr(n, 0);
+        int sum = 0;
+        for(int i=0; i<n; i++) {
+            arr[i] = 2*i+1;
+            sum += arr[i];
+        }
+        
+        int target = sum/n;
+        int operations = 0;
+        for(int i=0; i<n; i++) {
+            operations += abs(target-arr[i]);
+        }
+        
+        return operations/2;
+    }
+};
+
+
+
+
+
+Approach -1 :
+For n = 3
+
+If i = 0 , arr[0] = 2i + 1 = 1
+If i = 1 , arr[1] = 2i + 1 = 3
+If i = 2 , arr[2] = 2i + 1 = 5
+We dec 5 by 1 and inc 1 by 1
+arr : { 2 , 3 , 4 }
+We dec 4 by 1 and inc 2 by 1
+arr : { 3 , 3 , 3 }
+Min operation = 2
+Average of all nos = ( 1 + 3 + 5 ) / 3 = 3
+For n = 4
+
+If i = 0 , arr[ 0 ] = 2i +1 = 1
+If i = 1 , arr[ 1 ] = 2i + 1 = 3
+If i = 2 , arr[ 2 ] = 2i + 1 = 5
+If i = 3 , arr [ 3 ] = 2i + 1 = 7
+We dec 7 by 1 & inc 1 by 1
+arr : { 2 , 3, 5, 6 }
+We dec 6 by 1 and inc 2 by 1
+arr : { 3 , 3 , 5 , 5 }
+We dec 5 by 1 and inc 3 by 1
+arr : { 4 , 3, 4 , 5 }
+We dec 5 by 1 and inc 3 by 1
+arr : { 4 , 4, 4, 4 }
+min operation = 4
+Average of all elements = (1 + 3 + 5 + 7) / 4 = 4
+
+Observation from the above examples : All Elements tend to acheive their average
+arr : { 1 , 3 , 5 , 7 }
+ops : { +3 , +1 , -1 , -3 }
+We clearly see the pairs .
+We have to inc arr[ 0 ] = 1 by 1, 3 times & dec arr [ 3 ] = 7 , by 1, 3 times
+We have to inc arr[ 1 ] = 1 by 1, 1 time & dec arr [ 3 ] = 7 , by 1 , 3 times.
+
+So , min operations = 3 + 1 = 4
+
+Steps :
+We find the average of all elements.
+We create an array 'operations' of size = n.
+operations [ i ] = avg - arr [ i ] , i.e we calculate how much we have to add to make arr[ i ] = avg. If arr[ i ] > avg , then , avg - arr [ i ] = -ve.
+We add all non -ve elements of operations array . That'll give us the final answer.
+Time Complexity : O(n)
+Code:
+class Solution {
+    public int minOperations(int n) 
+    {
+        int arr[] = new int[n];
+        int sum = 0;
+        int operations[] = new int[n]; // operations[i] = stores deviation of arr[i] from average of arr elements
+        for(int i = 0 ; i<n ; i++)
+        {
+            arr[i] = (2*i)+1;
+            sum += arr[i];
+        }
+        int avg = sum/n;
+        int ans = 0;
+        for(int i = 0 ; i < n ; i++)
+        {
+            operations[i] = avg - arr[i];
+            if(operations[i]>=0)
+                ans += operations[i];
+        }
+        return ans;
+    }
+}
+Approach - 2:
+As we know , for n = 4
+arr : { 1 , 3 , 5 , 7 } & avg = 4
+ops : { 3 , 1 , -1 , - 3 }
+min operations = 4
+We observe , that , our ans is sum of the AP series : { 1 , 3 }
+
+For n = 3 ,
+arr : { 1 , 3 , 5 } & avg = 3
+ops : { 2 , 0 , -2 }
+Min operations = 2
+We observe , that , our ans is sum of the AP series : { 2 }
+
+For n = 5
+arr : { 1 , 3 , 5 , 7 , 9 } & avg = 5
+ops : { 4 , 2 , 0 , -2 , -4 }
+min operations = 6
+We observe that our ans is sum of the AP series : {2 ,4 }
+
+For n = 6,
+arr : { 1 ,3 , 5 , 7 , 9 , 11} & avg = 6
+ops : { 5 , 3, 1 , -1 , -3 , -5 }
+min operations = 9
+We observe , our ans is the sum of the AP series : { 1 , 3 , 5}
+
+From the above examples , we make a couple of conclusions:-
+1.)When n = odd , The answer is sum of first (n/2) elements AP of series : { 2 , 4 ,6 ,8 ,....} **
+As we know , the sum of first n terms of an AP series = S = n/2[2a + (n − 1) × d]
+Here a = 2 & d = 2 & n = n/2
+So, S =n/2[4 + ( n - 1 ) * 2 ]
+= n /2 [ 4 + 2n - 2 ]
+= n/2 [ 2 + 2n ]
+= n * (n+1)
+Here, n = n/ 2
+So, S = n/2 * ( n/2 + 1)
+
+2. ) When n = even , The answer is sum of first (n/2) elements of AP series : { 1 , 3 , 5 ,....}
+As we know , the sum of first n terms of an AP series = S = n/2[2a + (n − 1) × d]
+Here a = 1 & d = 2 & n = n/2
+So , S = n/2 [ 2 + 2(n-1)]
+= n/2[ 2 + 2n - 2 ]
+= n/2 * 2n
+= n^2
+Here , n = n /2
+So , S = (n/2)^2
+
+Time Complexity : O(1)
+Code:
+class Solution {
+    public int minOperations(int n) 
+    {
+        int s = 0;
+        if(n%2 == 0)
+            s = (n/2) * (n/2);
+        else
+            s = (n/2) * (n/2 + 1);
+        return s;
+    }
+}

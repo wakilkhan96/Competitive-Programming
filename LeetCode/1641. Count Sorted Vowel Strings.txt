@@ -1,0 +1,167 @@
+1641. Count Sorted Vowel Strings
+
+//only recursion
+public class Solution {
+    public int solve(int index, int n) {
+        if(index>=5 || n<0) return 0;
+        if(n==0) return 1;
+
+        int way1 = solve(index, n-1, dp);   // either take current index
+        int way2 = solve(index+1, n, dp);   // or skip to next index
+
+        return way1+way2;
+    }
+    public int CountVowelStrings(int n) {
+        return solve(0, n);
+    }
+}
+
+// recursion with memorization
+public class Solution {
+    public int solve(int index, int n, int[,] dp) {
+        if(index>=5 || n<0) return 0;
+        if(n==0) return 1;
+        
+        if(dp[index, n] != -1) return dp[index, n];
+        
+        int way1 = solve(index, n-1, dp);   // either take current index
+        int way2 = solve(index+1, n, dp);   // or skip to next index
+
+        // return way1+way2;
+        return dp[index, n] = way1+way2;
+    }
+    public int CountVowelStrings(int n) {
+        int[,] dp = new int[5+1, n+1];
+        for(int i=0; i<=5; i++) {
+            for(int j=0; j<=n; j++) dp[i, j] = -1;
+        }
+        
+        return solve(0, n, dp);
+    }
+}
+
+
+
+// other's solution
+
+constantine786
+https://leetcode.com/problems/count-sorted-vowel-strings/discuss/2027288/Python-4-approaches-(DP-Maths)
+
+DP Tabulation
+class Solution:
+    def countVowelStrings(self, n: int) -> int:        
+        dp = [[0] * 6 for _ in range(n+1)]
+        for i in range(1, 6):
+            dp[1][i] = i
+        
+        for i in range(2, n+1):
+            dp[i][1]=1
+            for j in range(2, 6):
+                dp[i][j] = dp[i][j-1] + dp[i-1][j]
+        
+        return dp[n][5]
+Time = O(n)
+Space = O(n)
+
+O(1) Space
+class Solution:
+    def countVowelStrings(self, n: int) -> int:        
+        dp = [1] * 5
+        
+        for i in range(2, n+1):
+            for j in range(4, -1, -1):
+                dp[j] += sum(dp[:j])            
+        
+        return sum(dp)
+Alternative solution shared by @koacosmos
+
+class Solution:
+    def countVowelStrings(self, k: int) -> int:        
+        dp = [1] * 5
+                                
+        for _ in range(1, k):
+            for i in range(1, 5):                    
+                dp[i] = dp[i] + dp[i-1]
+        
+        return sum(dp)
+Time = O(n)
+Space = O(1)
+
+Mathematical equation using Combinations with repetition
+class Solution:
+    def countVowelStrings(self, n: int) -> int:        
+        return (n + 4) * (n + 3) * (n + 2) * (n + 1) // 24;
+Solution shared by @nithinmanne1 using Python internal library.
+
+class Solution:
+    def countVowelStrings(self, n: int) -> int:        
+        return math.comb(n + 4, 4)
+Time = O(1)
+Space = O(1)
+
+
+
+
+
+
+dhruba-datta
+https://leetcode.com/problems/count-sorted-vowel-strings/discuss/2027503/Multiple-C%2B%2B-solutions-with-explanation
+
+If you’re interested in coding you can join my Discord Server, link in the comment section. Also if you find any mistakes please let me know. Thank you!❤️
+
+Explanation:
+Here we can observe a pattern to this problem.
+		  a  e  i  o  u
+    n=1   1  1  1  1  1  /a, e, i, o, u
+    n=2   5  4  3  2  1  /a-> aa,ae,ai,ao,au | e-> ee,ei,eo,eu | i-> ii,io,iu | o-> oo,ou | u-> uu
+    n=3   15 10 6  3  1
+If we observe from last there will be only 1 element which will start with u. Every other element will have the count of previous count + next element count. As example
+in n=2, i will be previous i(1) + count of next element, o(2) → 3
+in n=3, e will be previous e(4) + count of next element, i(6) → 10
+Solution 01
+Using 5 variables.
+Here we are adding previous value with the current next element with serial of a-e-i-o-u.
+Return by adding every element.
+Time complexity: O(n).
+Solution 02
+Using dp.
+Here we’re taking a vector of 5 sizes and initialising with 1.
+Iterating from the 2nd last & add the next element to the present element.
+Return the sum of every vector element.
+Time complexity: O(3n).
+Code:
+//Solution 01:
+class Solution {
+public:
+    int countVowelStrings(int n) {
+        int a=1, e=1, i=1, o=1, u=1;
+        
+        while(--n){
+            o += u;
+            i += o;
+            e += i;
+            a += e;
+        }
+        
+        return a+e+i+o+u;
+    }
+};
+
+//Solution 02:
+class Solution {
+public:
+    int countVowelStrings(int n) {
+        vector<int> dp(5, 1);
+        int ans = 0;
+        
+        while(--n){
+            for(int i=3; i>=0; i--){
+                dp[i] += dp[i+1];
+            }
+        }
+        
+        for(auto x:dp) ans += x;
+        
+        return ans;
+    }
+};

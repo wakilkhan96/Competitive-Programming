@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int wateringPlants(vector<int>& plants, int capacity) {
+        int currentWater = -1, steps = 0;
+        
+        for(int i=0; i<plants.size(); i++) {
+            if(currentWater<plants[i]) {
+                steps += (i-1)-(-1); // cost of going back to index (-1) from (i-1)-th index to refill water
+                currentWater = capacity;
+                steps += (i)-(-1); // cost to reach index (i) from (-1)-th index
+                currentWater -= plants[i];
+            }
+            else{
+                currentWater -= plants[i];
+                steps++; // cost to reach index (i) from (i-1)-th index
+            }
+        }
+        
+        return steps;
+    }
+};
+
+
+
+
+
+
+// 0 ms, solution
+class Solution {
+public:
+    int wateringPlants(vector<int>& plants, int capacity) {
+        int ans=0,n=plants.size();
+        int h=capacity;
+        for(int i=0;i<n;i++)
+        {
+            if(h>=plants[i])
+            {
+                ans++;
+                h-=plants[i];
+            }
+            else
+            {
+                ans+=2*i+1;
+                h=capacity-plants[i];
+            }
+        }
+        return ans;
+    }
+};

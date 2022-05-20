@@ -1,0 +1,104 @@
+
+class Solution {
+public:
+    double champagneTower(int poured, int query_row, int query_glass) {
+        double arr[110][110];
+        memset(arr, 0, sizeof arr);
+        arr[0][0] = (double)poured;
+		
+        // galasses from top to bottom can only hold one(1.00) glass of champagne, an top glasses will be filled first, and champagne of overflowed glasses will be poured to bottom glasses
+        for(int i=0; i<query_row+1; i++) {
+            for(int j=0; j<=i; j++) {
+                if(arr[i][j]>1.00) {
+                    double extra = arr[i][j]-1.00;
+                    arr[i][j] = 1.00;
+                    
+                    double half = extra/2.00;
+                    arr[i+1][j] += half;
+                    arr[i+1][j+1] += half;
+                }
+            }
+        }
+        return arr[query_row][query_glass];
+    }
+};
+
+
+
+
+
+
+/* Technique */
+ 
+			   0
+			 /   \		 
+			0     1			
+		   / \   / \		
+		  0    1 	2	
+		 / \  / \  / \
+		0   1     2   3
+	   / \ / \   / \ / \	  
+	  0   1    2    3   4		
+	......................
+  ..........................
+0 1 2 3 4 5 6 7 8 ... 97 98 99 100
+
+assuming all rows of galasses as zero based index, lets represent galasses as 2D array ... ...
+
+0												 
+0 1												
+0 1 2										   
+0 1 2 3										  
+0 1 2 3 4									 
+0 1 2 3 4 5									
+................
+..................
+0 1 2 3 4 5 6 7 8 ... 100
+
+
+row
+0		0
+		| \
+1		0  1
+		|\ | \
+2		0  1   2
+		|\ | \ | \
+3		0  1   2  3
+.		.............
+.		.............
+100		.............
+
+so, when glass[0][0] will be filled, overflowed champagne will be poured down to [1][0] and [1][1] -th glass
+
+so, when glass[1][0] will be filled, overflowed champagne will be poured down to [2][0] and [2][1] -th glass
+so, when glass[1][1] will be filled, overflowed champagne will be poured down to [2][1] and [2][2] -th glass
+
+so, when glass[i][j] will be filled, overflowed champagne will be poured down to [i+1][j] and [i+1][j+1] -th glass
+
+
+
+
+
+
+
+
+
+Approach #1: Simulation [Accepted]
+Intuition
+
+Instead of keeping track of how much champagne should end up in a glass, keep track of the total amount of champagne that flows through a glass. For example, if poured = 10 cups are poured at the top, then the total flow-through of the top glass is 10; the total flow-through of each glass in the second row is 4.5, and so on.
+
+Algorithm
+
+In general, if a glass has flow-through X, then Q = (X - 1.0) / 2.0 quantity of champagne will equally flow left and right. We can simulate the entire pour for 100 rows of glasses. A glass at (r, c) will have excess champagne flow towards (r+1, c) and (r+1, c+1).
+
+
+Complexity Analysis
+
+Time Complexity: O(R^2)O(R 
+2
+ ), where RR is the number of rows. As this is fixed, we can consider this complexity to be O(1)O(1).
+
+Space Complexity: O(R^2)O(R 
+2
+ ), or O(1)O(1) by the reasoning above.

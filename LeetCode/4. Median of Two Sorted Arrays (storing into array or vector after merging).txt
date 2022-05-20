@@ -1,0 +1,64 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int len1 = nums1.size(), len2 = nums2.size();
+        int merged_array_length = len1+len2;
+        int median_index = merged_array_length/2;
+        
+        vector<double> merged(merged_array_length, 0);
+        int i = 0, j = 0, k = 0;
+        while(i<len1 && j<len2) {
+            if(nums1[i]<=nums2[j]) merged[k++] = nums1[i++];
+            else merged[k++] = nums2[j++]; 
+        }
+        while(i<len1) merged[k++] = nums1[i++];
+        while(j<len2) merged[k++] = nums2[j++];
+        // cout<<merged[median_index]<<endl;
+        if(merged_array_length&1) return (double)merged[median_index];
+        return ((double)merged[median_index-1]+(double)merged[median_index])/2.00;
+         
+    }
+};
+
+
+Success
+Details 
+Runtime: 24 ms, faster than 94.68% of C++ online submissions for Median of Two Sorted Arrays.
+Memory Usage: 90.1 MB, less than 20.86% of C++ online submissions for Median of Two Sorted Arrays.
+
+
+
+
+
+/*
+				** incomplete **
+
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int len1 = nums1.size(), len2 = nums2.size();
+        int merged_array_length = len1+len2, num_of_medians;
+        if(merged_array_length&1) num_of_medians = 1;
+        else num_of_medians = 2;
+        
+        int last_used_array = -1;
+        vector<double> medians;
+        int i=0, j=0;
+        while(i<len1 && j<len2) {
+            if(i+j-1>= (len1+len2)/2) {
+                if(num_of_medians--) {
+                    if(last_used_array==1) medians.push_back((double)nums1[i]);
+                    else medians.push_back((double)nums2[j]);
+                }
+            }
+            if(nums1[i]<=nums2[j]) i++, last_used_array = 1;
+            else j++, last_used_array = 2; 
+        }
+        
+        if(medians.size()>1) return (medians[0]+medians[1])/2.00;
+        return medians[0];
+         
+    }
+};
+
+*/

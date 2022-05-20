@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool wordPattern(string pattern, string s) {
+        unordered_map<char, string> mp;
+        unordered_map<string, int> mapped_string; 
+        stringstream ss(s);
+        string str;
+        int i = 0;
+        while(ss>>str) {
+            // cout<<str;
+            if(mp.find(pattern[i])==mp.end()) {
+                if(!mapped_string[str]) mp[pattern[i]] = str, mapped_string[str]++;
+                else return false;
+            }
+            else {
+                if(mp[pattern[i]] != str) return false;
+            }
+            i++;
+        }
+        
+        if(i==pattern.size()) return true;
+        return false;
+    }
+};

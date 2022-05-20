@@ -1,0 +1,33 @@
+class Solution {
+public:
+    uint32_t reverseBits(uint32_t n) {
+        uint32_t one = 1;
+        uint32_t num = 0;
+        
+        int bits = 32;
+        while(--bits) {
+            if(n&1) num |= 1;    // checking if least significant bit of "n" is set or not
+            n = n >> 1;          // right shift "n"
+            num = num << 1;      // left shift "num"
+        }
+        if(n&1) num |= 1;        // if n is set, also set least significant bit of "num"
+        
+        return num;
+    }
+};
+
+
+/*
+ Technique
+ 
+-> Idea is to see the state of least significant bit of "n", if it is set then also set the the current least significant bit of "num", 
+-> to work with next bit right shift "n" and left shift "num" by 1
+-> process continues for 32 bits
+
+*/
+
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Reverse Bits.
+Memory Usage: 5.9 MB, less than 81.42% of C++ online submissions for Reverse Bits.

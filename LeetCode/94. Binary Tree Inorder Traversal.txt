@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    
+    vector<int> res;
+    void _inorderTraversal(TreeNode* root) {
+        if(root == nullptr) return;
+        inorderTraversal(root->left);
+        res.push_back(root->val);
+        inorderTraversal(root->right);
+    }
+    vector<int> inorderTraversal(TreeNode* root) {
+        _inorderTraversal(root);
+        return res;
+    }
+};
+
+
+
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Binary Tree Inorder Traversal.
+Memory Usage: 10.6 MB, less than 6.44% of C++ online submissions for Binary Tree Inorder Traversal.

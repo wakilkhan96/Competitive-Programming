@@ -1,0 +1,89 @@
+/*
+// recursive ->    Java
+class Solution {
+	public int longestCommonSubsequence(String s1, String s2) {
+		int m = s1.length();
+		int n = s2.length();
+		
+		int[][] dp = new int[m][n];
+		for(int[] row: dp) Arrays.fill(row,-1);
+		
+		return lcs(0, s1, 0, s2, dp);
+	}
+	public int lcs(int ind1, String s1, int ind2, String s2, int[][] dp){
+		
+		if(ind1>=s1.length() || ind2>=s2.length()) return 0;
+		if(dp[ind1][ind2]!=-1) return dp[ind1][ind2];
+		
+		if(s1.charAt(ind1)==s2.charAt(ind2)) return dp[ind1][ind2] = 1 + lcs(ind1+1, s1, ind2+1, s2, dp);
+		int state1 = lcs(ind1+1, s1, ind2, s2, dp);
+		int state2 = lcs(ind1, s1, ind2+1, s2, dp);;
+		return dp[ind1][ind2] = Math.max(state1, state2);
+	}
+}
+
+// dp  ->    C++
+class Solution {
+public:
+	
+	int longestCommonSubsequence(string text1, string text2) {
+		
+		int dp[10005][1005];
+		memset(dp, 0, sizeof(dp));
+		for(int i=1; i<=text1.size(); i++) {
+			for(int j=1; j<=text2.size(); j++) {
+				if(text1[i-1]==text2[j-1]) dp[i][j] = dp[i-1][j-1]+1;
+				else dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+			}
+		}
+		return dp[text1.size()][text2.size()];
+		
+	}
+};
+
+
+// dp  ->    C#
+
+public class Solution {
+	public int lcs(string text1, string text2) {
+		int r = text1.Length;
+		int c = text2.Length;
+		int[,] dp = new int[r+1, c+1];
+		for(int i=1; i<=r; i++) {
+			for(int j=1; j<=c; j++) {
+				if(text1[i-1]==text2[j-1]) dp[i, j] = dp[i-1, j-1]+1;
+				else dp[i, j] = Math.Max(dp[i-1, j], dp[i, j-1]);
+			}
+		}
+		return dp[r, c];
+	}
+	public int LongestCommonSubsequence(string text1, string text2) {
+		return lcs(text1, text2);
+	}
+}
+
+
+// recursive  ->    C#
+
+public class Solution {
+
+	public int lcs(int ind1, string text1, int ind2, string text2, int[,] dp) {
+		if(ind1>=text1.Length || ind2>=text2.Length) return 0;
+		if(dp[ind1, ind2]!=-1) return dp[ind1, ind2];
+		
+		if(text1[ind1]==text2[ind2]) return dp[ind1, ind2] = 1 + lcs(ind1+1, text1, ind2+1, text2, dp);;
+		int state1 = lcs(ind1+1, text1, ind2, text2, dp);
+		int state2 = lcs(ind1, text1, ind2+1, text2, dp);
+		return dp[ind1, ind2] = Math.Max(state1, state2);
+	}
+	
+	public int LongestCommonSubsequence(string text1, string text2) {
+		int[,] dp = new int[1005, 1005];
+		for(int i=0; i<1005; i++) {
+			for(int j=0; j<1005; j++) dp[i, j] = -1;
+		}
+		return lcs(0, text1, 0, text2, dp);
+	}
+}
+
+            */

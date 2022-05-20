@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int i=0, j=0;
+        // first two elements are always ok, like [1,1] or [1, 2]
+        for(i=0, j=0; i<nums.size() && i<2; i++) nums[j++] = nums[i];
+        //after above for loop, i = 2, j = 2;
+        
+        for( ; i<nums.size(); i++) {
+            // for i>=2, we will try to put nums[i] at j-th position
+            // we have to check if that is possible
+            // so if we put put nums[i] at j-th position, (j-2)th position 
+            // can't have same value as nums[i], so nums[j-2] != nums[i]
+            if(i < 2 || nums[j-2] != nums[i]) {
+                nums[j++] = nums[i];
+            }
+        }
+        return j;
+    }
+};
+
+Success
+Details 
+Runtime: 4 ms, faster than 86.50% of C++ online submissions for Remove Duplicates from Sorted Array II.
+Memory Usage: 11 MB, less than 9.46% of C++ online submissions for Remove Duplicates from Sorted Array II.

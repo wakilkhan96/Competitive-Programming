@@ -1,0 +1,121 @@
+class Solution {
+public:
+    vector<int> minOperations(string boxes) {
+        int size = boxes.size();
+        vector<int> leftToRight(size, 0);
+        vector<int> rightToLeft(size, 0);
+        
+        int ballCount;
+        
+        ballCount = 0;
+        for(int i=0; i<size; i++) {
+            if(i>0) leftToRight[i] = (ballCount*1) + leftToRight[i-1];
+            if(boxes[i]=='1') ballCount++;
+        }
+        
+        ballCount = 0;
+        for(int i=size-1; i>=0; i--) {
+            if(i<size-1) rightToLeft[i] = (ballCount*1) + rightToLeft[i+1];
+            if(boxes[i]=='1') ballCount++;
+        }
+        
+        vector<int> minMoves(size, 0);
+        for(int i=0; i<size; i++) minMoves[i] = leftToRight[i]+rightToLeft[i];
+        return minMoves;
+    }
+};
+
+
+
+
+/* Technique */
+	As we need the minimum number of operations needed to move all the balls to the i-th box from it's left and right side. 
+ Operations needed to move a ball from j-th index to i-th index is abs(i - j). So, to minimize total number of moves lets divide this work into 2 portions.
+	First, move all balls those are currently to the left of i-th index and store min needed moves to an array, 
+	then move all balls those are currently to the right of i-th index and store min needed moves to an array, 
+	Sum of these two arrays is answer.
+	
+	
+Input: boxes = "001011"
+Output: [11,8,5,4,3,4]
+
+Let leftToRight[i] is the total distance after moving all the ball from the left side to i-th box.
+Let leftBallCnt is the number of balls after moving all the ball from the left side to i-th box so far.
+
+To calculate leftToRight[i], we need to move leftBallCnt balls from (i-1)-th box by one, so total distance:
+leftToRight[i] = leftToRight[i-1] + (leftBallCnt*1) = leftToRight[i-1] + leftBallCnt*1
+
+Do the same with rightToLeft[i] and rightBallCnt in the right side.
+
+To calculate total distance after moving all the ball from the left and the right side to ith box:
+minMoves[i] = leftToRight[i] + rightToLeft[i]
+
+Example,
+Input:			[  0 0 1 0 1 1 ]
+
+leftToRight[] = [  0 0 0 1 2 4 ]
+rightToLeft[] = [ 11 8 5 3 1 0 ]
+---------------------------------------
+minMoves[]	  = [ 11 8 5 4 3 4 ]
+
+
+
+
+
+
+
+https://leetcode.com/problems/minimum-number-of-operations-to-move-all-balls-to-each-box/discuss/1336827/Python-2-solutions-Picture-explain-Clean-and-Concise-O(N)
+
+✔️ Solution 1: Bruteforce Solution
+
+class Solution(object):
+    def minOperations(self, boxes):
+        n = len(boxes)
+        ans = [0] * n
+        for i in range(n):
+            for j in range(n):
+                if boxes[j] == '1':
+                    ans[i] += abs(j-i)
+        return ans
+Complexity
+
+Time: O(N^2), where N <= 2000 is length of boxes.
+Space: O(1)
+
+
+
+✔️ Solution 2: DP Left to Right and Right To Left
+
+Let leftDist[i] is the total distance after moving all the ball from the left side to ith box.
+Let leftBallCnt is the number of balls after moving all the ball from the left side to ith box so far.
+To calculate leftDist[i], we need to move leftBallCnt balls from (i-1)th box by one, so total distance:
+leftDist[i] = leftDist[i-1] + leftBallCnt
+Do the same with rightDist[i] and rightBallCnt in the right side.
+To calculate total distance after moving all the ball from the left and the right side to ith box:
+ans[i] = leftDist[i] + rightDist[i]
+image: https://assets.leetcode.com/users/images/aa1c731c-ca2a-4bed-bfe5-06e3abe2e8d3_1626259914.2228394.png
+
+class Solution(object):
+    def minOperations(self, boxes):
+        n = len(boxes)
+
+        leftDist = [0] * n
+        leftBallCnt = int(boxes[0])
+        for i in range(1, n):
+            leftDist[i] = leftDist[i - 1] + leftBallCnt
+            leftBallCnt = leftBallCnt + int(boxes[i])
+
+        rightDist = [0] * n
+        rightBallCnt = int(boxes[n - 1])
+        for i in range(n - 2, -1, -1):
+            rightDist[i] = rightDist[i + 1] + rightBallCnt
+            rightBallCnt = rightBallCnt + int(boxes[i])
+
+        ans = [0] * n
+        for i in range(n):
+            ans[i] = leftDist[i] + rightDist[i]
+        return ans
+Complexity
+
+Time: O(N), where N <= 2000 is length of boxes.
+Space: O(N)

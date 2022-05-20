@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<vector<int>> groupThePeople(vector<int>& groupSizes) {
+        unordered_map<int, vector<int>> mp;
+        mp.clear();
+        for(int i=0; i<groupSizes.size(); i++) {
+            mp[groupSizes[i]].push_back(i);
+        }
+        
+        vector<vector<int>> groups;
+        for(auto it=mp.begin(); it!=mp.end(); it++) {
+            int groupSize = it->first;
+            
+            // cout<<it->first<<endl;
+            // cout<<it->second.size()<<endl;
+            
+			// there can be more than one group of same group Size
+            for(int i=0; i<it->second.size(); i += groupSize) {
+                vector<int> group;
+                for(int j=0; j<groupSize; j++) group.push_back(it->second[i+j]); 
+                groups.push_back(group);
+            }
+        }
+        
+        return groups;
+    }
+};

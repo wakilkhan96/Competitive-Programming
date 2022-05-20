@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int minBitFlips(int start, int goal) {
+        
+        int mostRightBitChecker = 1, cou = 0;
+        while(start || goal) {
+            // checking the bit of both number at same position
+            if((start&mostRightBitChecker) != (goal&mostRightBitChecker)) cou++;
+            start >>= 1;
+            goal >>= 1;
+        }
+        
+        return cou;
+    }
+};

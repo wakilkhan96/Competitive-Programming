@@ -1,0 +1,92 @@
+
+/* faster solution */
+class Solution {
+public:
+    int minPartitions(string n) {
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        
+        char ch = '0';
+        for(int i=0; i<n.size() && ch<'9'; i++) ch = max(ch, n[i]);
+        return ch-'0';
+    }
+};
+
+
+/* slower solution */
+class Solution {
+public:
+    int minPartitions(string n) {
+        string str = "";
+        int len = n.size();
+        for(int i=0; i<len; i++) str.push_back('0');
+        if(str==n) return 1;
+        
+        int cou = 0;
+        while(true) {
+            for(int i=0; i<len; i++) {
+                if(str[i]<n[i]) str[i] = (str[i]+1);
+            }
+            
+            cou++;
+            // cout<<str<<endl;
+            if(str==n) break;
+        }
+        return cou;
+    }
+};
+
+// Technique //
+-> add larger deci-binary numbers first, to get the minimum number of positive deci-binary numbers needed so that they sum up to n.
+-> so, start with str =  "00000000000" 
+	Since they have asked for minimum number of positive deci-binary numbers needed so that they sum up to n, [ here n is 1423 ].
+	So from above image we can say that
+	0 0 0 0
+	1 1 1 1 
+	0 1 1 1
+ 	0 1 0 1
++   0 1 0 0
+  ___________
+	1 4 2 3
+-> if(str[i]<n[i]) str[i] = (str[i]+1);  so we will increase the digit at i-th place, so in this manner actually we are adding max deci-binary number needed to add
+-> so at most 9 operations is needed
+
+-> it can be optimized as to make a digit chaged to 9 from 0, by adding 1, it takes at most 9 operations
+-> so the max char is the ans
+
+
+
+
+
+https://leetcode.com/problems/partitioning-into-minimum-number-of-deci-binary-numbers/discuss/970270/C%2B%2B-Python-Explanation-with-Image-and-Example-oror-Max-digit-oror-O(n)
+
+Main moto is to find maximum digit and return its value.
+
+Here we require only Deci-binary numbers which consits of only 0 and 1.
+So if we find the maximum digit from the string then it is the answer.
+Because:
+.
+Example
+.
+Lets say we have number 1423
+Then number of 1's required to make One is 1 , Four is 4 , Two is 2, and Three is 3
+It is represented like this:
+image
+
+Since they have asked for minimum number of positive deci-binary numbers needed so that they sum up to n, [ here n is 1423 ].
+So from above image we can say that
+
+	1 1 1 1 
+	0 1 1 1
+ 	0 1 0 1
++   0 1 0 0
+  ___________
+	1 4 2 3
+Hence we require '4 minimum number of positive deci-binary numbers needed so that they sum up to 1423'
+In general we can say that the Maximum Digit` in the number represents the minimum number of positive deci-binary numbers needed so that they sum up to n'
+
+Given example in the question
+
+32
+image
+Answer = 3

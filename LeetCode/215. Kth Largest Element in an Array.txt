@@ -1,0 +1,69 @@
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        return nums[nums.size()-k];
+    }
+};
+
+
+
+
+
+
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        
+        int n=nums.size();
+        priority_queue<int> qu;
+        for(int i=0;i<n;i++){
+            qu.push(nums[i]);
+        }
+        for(int i=0;i<k-1;i++){
+            qu.pop();
+        }
+        return qu.top();
+    }
+};
+
+
+
+
+
+
+class Solution {
+public:
+    int partition(vector<int>&nums, int l , int r, int pi)
+    {
+        swap(nums[pi], nums[r]);
+        int i = l-1;
+        for(int j=l; j<r; j++)
+        {
+            if(nums[j]<nums[r])
+            {
+                swap(nums[j],nums[++i]);
+                
+            }
+                
+        }
+        swap(nums[++i], nums[r]);
+        return i;
+    }
+    int quickselect(vector<int>& nums, int left, int right, int k )
+    {
+        if(left==right)
+            return nums[left];
+        int pivot = left + rand()%(right-left);
+        pivot = partition(nums, left, right , pivot);
+        if(k == pivot)
+            return nums[k];
+        else if (k<pivot)
+            return quickselect(nums, left, pivot-1, k);
+        return quickselect(nums, pivot+1, right,k);
+    }
+    int findKthLargest(vector<int>& nums, int k) {
+        return quickselect(nums,0, nums.size()-1, nums.size()-k);
+    }
+};

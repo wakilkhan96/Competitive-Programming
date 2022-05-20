@@ -1,0 +1,73 @@
+class Solution {
+public:
+    // int abs(int diff) {
+    //     if(diff<0) return -diff;
+    //     return diff;
+    // }
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ios::sync_with_stdio(0);
+        ListNode* intersectionNode = nullptr;
+        ListNode* current = nullptr;
+        
+        int lengthA = 0, lengthB = 0;
+        
+        current = headA;
+        while(current) {
+            lengthA++;
+            current = current->next;
+        }
+        
+        current = headB;
+        while(current) {
+            lengthB++;
+            current = current->next;
+        }
+        
+        int diff = abs(lengthA-lengthB);
+        // cout<<lengthA<<" "<<lengthB<<" "<<diff<<endl;
+        
+        if(lengthA>lengthB) {
+            for(int i=0; i<diff; i++) headA = headA->next;
+        }
+        else {
+            for(int i=0; i<diff; i++) headB = headB->next;
+        }
+        
+        // cout<<headA->val<<" "<<headB->val<<endl;
+        while(headA && headB) {
+            if(headA==headB) return headA;
+            headA = headA->next;
+            headB = headB->next;
+        }
+        
+        return nullptr;
+    }
+};
+
+
+
+
+
+// Idea of solution:
+Input:
+[4,1,8,4,5]
+[3,2,5,6,1,8,4,5]
+
+So,
+Linked List A =          [4, 1, 8, 4, 5]   = Length(5)
+Linked List B = [3, 2, 5, 6, 1, 8, 4, 5]   = Length(8)
+-----------------------------------------------------------
+		Length difference          = Length(3)
+
+if(List A > List B) we will move head of List A forward N-times equal to difference[N-times = difference = 3 times]
+otherwise,
+if(List B > List A) we will move head of List B forward N-times equal to difference[N-times = difference = 3 times]
+
+As, on the above, (List B > List A) so, after forwarding the head of List B for 3 times, head for (List 2 and List 1) is shown below,
+	headA
+	  |
+	 [4, 1, 8, 4, 5]
+[3, 2, 5, 6, 1, 8, 4, 5]
+ |        |
+	headB
+from now on, we will only check if headA==headB or not, that's all.

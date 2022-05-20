@@ -1,0 +1,23 @@
+class Solution {
+    public  int lengthOfLongestSubstring(String s) {
+        int max = 0;
+        for (int i=0;i<s.length();i++){
+            max = Math.max(max,helper(s,i,new HashSet<>(),0));
+        }
+        return max;
+    }
+
+    public  int helper(String s, int i, HashSet<Character> set,int count){
+        if (i==s.length() || set.contains(s.charAt(i))) return count;
+        else {
+            set.add(s.charAt(i));
+            return helper(s,i+1,set,count+1);
+        }
+    }
+}
+
+
+Success
+Details 
+Runtime: 205 ms, faster than 11.71% of Java online submissions for Longest Substring Without Repeating Characters.
+Memory Usage: 118 MB, less than 5.19% of Java online submissions for Longest Substring Without Repeating Characters.

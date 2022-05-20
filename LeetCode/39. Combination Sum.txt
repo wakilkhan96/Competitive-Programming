@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<vector<int>> combinations;
+    vector<int>combination;
+    
+    void findCombination(int index, int current, int target, vector<int>& candidates) {
+        if(index>=candidates.size() || current>target) return;
+        if(current==target) {
+            combinations.push_back(combination);
+            return;
+        }
+        
+        combination.push_back(candidates[index]);
+        findCombination(index, current+candidates[index], target, candidates);
+        combination.pop_back();
+        findCombination(index+1, current, target, candidates);
+        return;
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        combinations.clear();
+        combination.clear();
+        
+        findCombination(0, 0, target, candidates);
+        return combinations;
+    }
+};
+
+Success
+Details 
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Combination Sum.
+Memory Usage: 11.1 MB, less than 47.48% of C++ online submissions for Combination Sum.

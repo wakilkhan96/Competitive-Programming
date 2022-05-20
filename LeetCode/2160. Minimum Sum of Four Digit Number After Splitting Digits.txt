@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int minimumSum(int num) {
+        string str = to_string(num);
+        sort(str.begin(), str.end());
+        
+        int num1 =0, num2 = 0;
+        for(int i=0; i<str.size(); i++) {
+            if(i%2==0) num1 = num1*10 + (str[i]-'0');
+            else num2 = num2*10 + (str[i]-'0');
+        }
+        
+        return num1+num2;
+    }
+};
+
+
+
+
+class Solution {
+public:
+   int minimumSum(int num)
+    {
+    vector<int> v;
+    while (num)
+    {
+        int dig = num % 10;
+        v.push_back(dig);
+        num = num / 10;
+    }
+    sort(v.rbegin(), v.rend());
+    int num1 = 0, pro = 1, num2 = 0;
+    for (int i = 0; i < v.size(); i += 2)
+    {
+        num1 += pro * (v[i]);
+        pro *= 10;
+    }
+    pro = 1;
+    for (int i = 1; i < v.size(); i += 2)
+    {
+        num2 += pro * (v[i]);
+        pro *= 10;
+    }
+    return num1 + num2;
+    }
+};

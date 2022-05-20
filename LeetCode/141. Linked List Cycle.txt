@@ -1,0 +1,30 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        ios::sync_with_stdio(0);
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(slow!=nullptr && fast!= nullptr && fast->next != nullptr) {
+        // if fast can catch slow that means it's in a cycle, 
+        //otherwise fast can never go back to catch slow
+            slow = slow->next;
+            fast = fast->next->next;
+            if(fast == slow) return true;
+        }
+        
+        return false;
+    }
+};
+
+Success
+Details 
+Runtime: 4 ms, faster than 99.69% of C++ online submissions for Linked List Cycle.
+Memory Usage: 8.1 MB, less than 58.31% of C++ online submissions for Linked List Cycle.

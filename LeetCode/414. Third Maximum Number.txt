@@ -1,0 +1,70 @@
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        
+        unordered_map<int, int> mp;
+        
+        long long maxNumber[4];
+        maxNumber[1] = maxNumber[2] = maxNumber[3] = -LLONG_MAX;
+        
+        for(int i=0; i<nums.size(); i++) {
+            if(!mp[nums[i]] && nums[i]>maxNumber[3]) {
+                mp[nums[i]]++;
+                
+                maxNumber[3] = nums[i];
+                if(maxNumber[3]>maxNumber[2]) swap(maxNumber[2], maxNumber[3]);
+                if(maxNumber[2]>maxNumber[1]) swap(maxNumber[1], maxNumber[2]);
+                // for(int j=1; j<4; j++) cout<< maxNumber[j]<<" ";
+            }
+            // cout<<endl;
+        }
+        
+        return (maxNumber[3] == -LLONG_MAX ? (int) maxNumber[1] : (int) maxNumber[3]);
+    }
+};
+
+
+
+
+https://leetcode.com/problems/third-maximum-number/discuss/1850100/Stepping-over-a-MAX-ladder
+
+Max number Ladder
+Think the max numbers as a ladder with 3 steps
+MAX1
+	MAX2
+		MAX3
+And these steps can be represented in an array as:
+
+max[0](largest number)
+	max[1]
+		max[2](smallest number)
+Note: max[0] as smallest and max[2] as largest can also be used as per intuition of where to start climbing
+Approach
+Use a vector<long> max to store the steps, initialize all of them to LONG_MIN.
+Iterate through the array of nums and for each number do the following:
+If the number is already present in the max vector that means we have processed that number earlier so just skip that number. Otherwise -
+Check if the incoming number is greater than the "smallest number" / "first step" / max[2]. If so then assign the number to max[2].
+Check if the number at max[2] is now greater than the "middle number" / "second step" / max[1]. If so then swap max[2] and max[1].
+Check if the number at max[1] is now greater than the "largest number" / "third step" / max[0]. If so then swap max[1] and max[0].
+At the end, check if the "third greatest" / "smallest in array" / "first step" / max[0] is still LONG_MIN that means it hasn't been set yet so just return the greatest number / max[0]. If no, return the smallest number in the max array i.e max[2].
+Code
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        vector<long> max = {LONG_MIN, LONG_MIN, LONG_MIN};
+        
+        for(int x: nums) {
+            if(find(max.begin(), max.end(), x) != max.end())
+                continue;
+            
+            if(x > max[2])
+                max[2] = x;
+            if(max[2] > max[1])
+                swap(max[2], max[1]);
+            if(max[1] > max[0])
+                swap(max[1], max[0]);
+        }
+        
+        return (max[2] == LONG_MIN ? (int) max[0] : (int) max[2]);
+    }
+};
